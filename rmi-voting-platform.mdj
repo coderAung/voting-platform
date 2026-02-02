@@ -66,7 +66,7 @@
 											"top": 52,
 											"width": 173.3642578125,
 											"height": 13,
-											"text": "PollServer"
+											"text": "VotingServer"
 										},
 										{
 											"_type": "LabelView",
@@ -947,7 +947,7 @@
 											"parentStyle": true,
 											"left": 69,
 											"top": 207,
-											"width": 173.3642578125,
+											"width": 174.798828125,
 											"height": 13,
 											"text": "ActivePoll"
 										},
@@ -985,7 +985,7 @@
 									"parentStyle": true,
 									"left": 64,
 									"top": 200,
-									"width": 183.3642578125,
+									"width": 184.798828125,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGcFO5vvXQsCiI="
@@ -1013,7 +1013,7 @@
 									"parentStyle": true,
 									"left": 64,
 									"top": 225,
-									"width": 183.3642578125,
+									"width": 184.798828125,
 									"height": 10
 								},
 								{
@@ -1039,9 +1039,9 @@
 											"parentStyle": true,
 											"left": 69,
 											"top": 240,
-											"width": 173.3642578125,
+											"width": 174.798828125,
 											"height": 13,
-											"text": "+refresh(option: VotedOption)",
+											"text": "+refresh(form: VoteForm)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1057,7 +1057,7 @@
 											"parentStyle": true,
 											"left": 69,
 											"top": 255,
-											"width": 173.3642578125,
+											"width": 174.798828125,
 											"height": 13,
 											"text": "+vote(form: VoteForm)",
 											"horizontalAlignment": 0
@@ -1067,7 +1067,7 @@
 									"parentStyle": true,
 									"left": 64,
 									"top": 235,
-									"width": 183.3642578125,
+									"width": 184.798828125,
 									"height": 38
 								},
 								{
@@ -1110,7 +1110,7 @@
 							"containerChangeable": true,
 							"left": 64,
 							"top": 200,
-							"width": 182.3642578125,
+							"width": 183.798828125,
 							"height": 73,
 							"nameCompartment": {
 								"$ref": "AAAAAAGcFO5vvXQrEwI="
@@ -1378,7 +1378,7 @@
 											"top": 39,
 											"width": 173.3642578125,
 											"height": 13,
-											"text": "PollManagement"
+											"text": "PollManagementService"
 										},
 										{
 											"_type": "LabelView",
@@ -1632,7 +1632,7 @@
 											"top": 175,
 											"width": 173.3642578125,
 											"height": 13,
-											"text": "VotingManagement"
+											"text": "VoteManagementService"
 										},
 										{
 											"_type": "LabelView",
@@ -3075,7 +3075,7 @@
 											"left": 186,
 											"top": 330,
 											"width": 68,
-											"height": 26,
+											"height": 13,
 											"text": "Start Voting",
 											"wordWrap": true
 										}
@@ -5520,7 +5520,7 @@
 											"top": 348,
 											"width": 200.09423828125,
 											"height": 13,
-											"text": "-choice: Option",
+											"text": "-option: Option",
 											"horizontalAlignment": 0
 										},
 										{
@@ -6962,7 +6962,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGcBazefkwEarc="
 							},
-							"name": "choice",
+							"name": "option",
 							"visibility": "private",
 							"type": {
 								"$ref": "AAAAAAGcBaorwkt2gqI="
@@ -9132,7 +9132,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "PollServer",
+					"name": "VotingServer",
 					"operations": [
 						{
 							"_type": "UMLOperation",
@@ -9310,12 +9310,14 @@
 							"parameters": [
 								{
 									"_type": "UMLParameter",
-									"_id": "AAAAAAGcFO9rv3Ra/J8=",
+									"_id": "AAAAAAGcHjV/K2ht6sE=",
 									"_parent": {
 										"$ref": "AAAAAAGcFO62hnRTUQg="
 									},
-									"name": "option",
-									"type": "VotedOption"
+									"name": "form",
+									"type": {
+										"$ref": "AAAAAAGcFPZKhXWMg8I="
+									}
 								}
 							]
 						},
@@ -9377,7 +9379,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "PollManagement",
+					"name": "PollManagementService",
 					"operations": [
 						{
 							"_type": "UMLOperation",
@@ -9482,7 +9484,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "VotingManagement",
+					"name": "VoteManagementService",
 					"operations": [
 						{
 							"_type": "UMLOperation",
@@ -10145,6 +10147,24 @@
 									"subViews": [
 										{
 											"_type": "UMLAttributeView",
+											"_id": "AAAAAAGcHjMzdmhiDZM=",
+											"_parent": {
+												"$ref": "AAAAAAGcFQJCyH9c4tI="
+											},
+											"model": {
+												"$ref": "AAAAAAGcHjMzZ2hfTDc="
+											},
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 336,
+											"top": 70,
+											"width": 156.71435546875,
+											"height": 13,
+											"text": "+id: String",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLAttributeView",
 											"_id": "AAAAAAGcFQJjz3+BH6w=",
 											"_parent": {
 												"$ref": "AAAAAAGcFQJCyH9c4tI="
@@ -10155,7 +10175,7 @@
 											"font": "Arial;13;0",
 											"parentStyle": true,
 											"left": 336,
-											"top": 70,
+											"top": 85,
 											"width": 156.71435546875,
 											"height": 13,
 											"text": "-title: String",
@@ -10173,7 +10193,7 @@
 											"font": "Arial;13;0",
 											"parentStyle": true,
 											"left": 336,
-											"top": 85,
+											"top": 100,
 											"width": 156.71435546875,
 											"height": 13,
 											"text": "-votes: int",
@@ -10185,7 +10205,7 @@
 									"left": 331,
 									"top": 65,
 									"width": 166.71435546875,
-									"height": 38
+									"height": 53
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -10199,7 +10219,7 @@
 									"font": "Arial;13;0",
 									"parentStyle": true,
 									"left": 331,
-									"top": 103,
+									"top": 118,
 									"width": 166.71435546875,
 									"height": 10
 								},
@@ -10244,7 +10264,7 @@
 							"left": 331,
 							"top": 40,
 							"width": 165.71435546875,
-							"height": 73,
+							"height": 88,
 							"nameCompartment": {
 								"$ref": "AAAAAAGcFQJCx39X+Yw="
 							},
@@ -10643,6 +10663,15 @@
 					},
 					"name": "OptionItem",
 					"attributes": [
+						{
+							"_type": "UMLAttribute",
+							"_id": "AAAAAAGcHjMzZ2hfTDc=",
+							"_parent": {
+								"$ref": "AAAAAAGcFQJCx39UJFQ="
+							},
+							"name": "id",
+							"type": "String"
+						},
 						{
 							"_type": "UMLAttribute",
 							"_id": "AAAAAAGcFQJjyH9+S5M=",

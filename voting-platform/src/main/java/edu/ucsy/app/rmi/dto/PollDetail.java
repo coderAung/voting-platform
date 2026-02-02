@@ -2,17 +2,16 @@ package edu.ucsy.app.rmi.dto;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
-public record PollForm(
+public record PollDetail(
+        UUID id,
         String title,
-        LocalDateTime endTime,
-        Integer voteLimit,
-        List<String> options
-
+        List<OptionItem> options
 ) implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
+
 }

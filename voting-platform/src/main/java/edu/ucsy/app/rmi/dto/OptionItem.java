@@ -2,15 +2,11 @@ package edu.ucsy.app.rmi.dto;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.List;
 
-public record PollForm(
+public record OptionItem(
+        String id,
         String title,
-        LocalDateTime endTime,
-        Integer voteLimit,
-        List<String> options
-
+        int votes
 ) implements Serializable {
 
     @Serial

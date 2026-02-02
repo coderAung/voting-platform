@@ -42,3 +42,7 @@ build/
 .mvn/
 mvnw
 mvnw.cmd
+
+### Database ###
+*.db
+database/*

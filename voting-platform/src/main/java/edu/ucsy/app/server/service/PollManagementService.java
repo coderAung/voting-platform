@@ -12,16 +12,16 @@ public class PollManagementService {
         return null;
     }
 
-    public void delete(UUID id) {
-
-    }
-
     public PollDetail findById(UUID id) {
         return null;
     }
 
     public List<PollDetail> getAll() {
         return null;
+    }
+
+    public void delete(UUID id) {
+
     }
 
 }

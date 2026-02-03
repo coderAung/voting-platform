@@ -4,7 +4,7 @@ import edu.ucsy.app.rmi.dto.VoteForm;
 
 public class VoteManagementService {
 
-    public void vote(VoteForm form) {
+    public void create(VoteForm form) {
 
     }
 }

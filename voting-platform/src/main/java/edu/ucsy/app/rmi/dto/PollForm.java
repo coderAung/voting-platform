@@ -10,7 +10,6 @@ public record PollForm(
         LocalDateTime endTime,
         Integer voteLimit,
         List<String> options
-
 ) implements Serializable {
 
     @Serial

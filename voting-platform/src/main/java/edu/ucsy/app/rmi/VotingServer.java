@@ -8,6 +8,8 @@ import java.rmi.RemoteException;
 
 public interface VotingServer extends Remote {
 
+    void host(PollDetail poll) throws RemoteException;
+
     void vote(VoteForm form) throws RemoteException;
 
     PollDetail getPollDetail() throws RemoteException;

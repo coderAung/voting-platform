@@ -7,6 +7,6 @@
       fx:controller="edu.ucsy.app.ui.controller.Home"
       prefHeight="400.0" prefWidth="600.0">
 
-    <Label>Hello</Label>
+    <Label>Hello home</Label>
 
 </VBox>

@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="edu.ucsy.app.ui.controller.MasterLayout"
-      prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-</VBox>
+<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ucsy.app.controller.MasterController">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #2c3e50; -fx-padding: 15;">
+            <children>
+                <Label text="VOTING SYSTEM" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+                <HBox alignment="CENTER_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#showHome" prefWidth="100.0" text="Home" />
+                        <Button mnemonicParsing="false" onAction="#showActivePoll" prefWidth="100.0" text="Active Poll" />
+                        <Button mnemonicParsing="false" onAction="#showHistory" prefWidth="100.0" text="History" />
+                    </children>
+                </HBox>
+            </children>
+        </HBox>
+    </top>
+    <center>
+        <StackPane fx:id="contentArea" style="-fx-background-color: #ecf0f1;" BorderPane.alignment="CENTER" />
+    </center>
+</BorderPane>

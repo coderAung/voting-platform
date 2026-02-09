@@ -16,4 +16,5 @@ public interface PollManagementService {
 
     void delete(UUID id);
 
+    void create(PollDetail poll, boolean isOwner);
 }

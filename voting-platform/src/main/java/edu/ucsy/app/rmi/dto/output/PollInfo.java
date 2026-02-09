@@ -1,5 +1,6 @@
-package edu.ucsy.app.rmi.dto;
+package edu.ucsy.app.rmi.dto.output;
 
+import edu.ucsy.app.rmi.dto.PollDetail;
 import edu.ucsy.app.server.entities.Poll;
 
 import java.io.Serial;

@@ -2,6 +2,7 @@ package edu.ucsy.app.server;
 
 import edu.ucsy.app.rmi.VotingServer;
 import edu.ucsy.app.rmi.dto.*;
+import edu.ucsy.app.rmi.dto.output.PollInfo;
 import edu.ucsy.app.rmi.event.OnVoteEvent;
 import edu.ucsy.app.rmi.event.PollEndEvent;
 import edu.ucsy.app.utils.exception.VotingPlatformBusinessException;

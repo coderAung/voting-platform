@@ -1,4 +1,6 @@
-package edu.ucsy.app.rmi.dto;
+package edu.ucsy.app.rmi.dto.output;
+
+import edu.ucsy.app.rmi.dto.OptionItem;
 
 import java.io.Serial;
 import java.io.Serializable;

@@ -44,4 +44,5 @@ module edu.ucsy.app.votingplatform {
     exports edu.ucsy.app.rmi;
     exports edu.ucsy.app.rmi.dto;
     exports edu.ucsy.app.rmi.event;
+    exports edu.ucsy.app.rmi.dto.output;
 }

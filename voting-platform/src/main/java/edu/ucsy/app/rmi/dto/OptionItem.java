@@ -7,7 +7,7 @@ import java.util.List;
 public record OptionItem(
         String id,
         String title,
-        List<String> voters
+        List<VoteDetail> voters
 ) implements Serializable {
 
     @Serial
@@ -17,7 +17,7 @@ public record OptionItem(
         return voters.size();
     }
 
-    public void addVote(String ipAddress) {
-        voters.add(ipAddress);
+    public void addVote(VoteDetail vote) {
+        voters.add(vote);
     }
 }

@@ -1,5 +1,6 @@
 package edu.ucsy.app.rmi.dto;
 
+import edu.ucsy.app.rmi.dto.output.PollInfo;
 import edu.ucsy.app.server.entities.Poll;
 
 import java.io.Serial;
@@ -33,7 +34,7 @@ public record PollDetail(
         options.stream().filter(o -> o.id().equals(optionId))
                 .findFirst()
                 .orElseThrow()
-                .addVote(voterIpAddress);
+                .addVote(new VoteDetail(optionId, voterIpAddress, LocalDateTime.now()));
     }
 
     public int getVotesByOptionId(String optionId) {

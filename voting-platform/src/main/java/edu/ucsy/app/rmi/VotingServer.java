@@ -1,6 +1,6 @@
 package edu.ucsy.app.rmi;
 
-import edu.ucsy.app.rmi.dto.PollInfo;
+import edu.ucsy.app.rmi.dto.output.PollInfo;
 import edu.ucsy.app.rmi.dto.VoteForm;
 
 import java.rmi.Remote;

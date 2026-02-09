@@ -6,22 +6,14 @@ import edu.ucsy.app.rmi.dto.PollForm;
 import java.util.List;
 import java.util.UUID;
 
-public class PollManagementService {
+public interface PollManagementService {
 
-    public UUID create(PollForm form) {
-        return null;
-    }
+    UUID create(PollForm form);
 
-    public PollDetail findById(UUID id) {
-        return null;
-    }
+    PollDetail findById(UUID id);
 
-    public List<PollDetail> getAll() {
-        return null;
-    }
+    List<PollDetail> getAll();
 
-    public void delete(UUID id) {
-
-    }
+    void delete(UUID id);
 
 }

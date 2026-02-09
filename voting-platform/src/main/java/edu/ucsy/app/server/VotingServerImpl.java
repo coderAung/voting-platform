@@ -3,6 +3,7 @@ package edu.ucsy.app.server;
 import edu.ucsy.app.rmi.VotingServer;
 import edu.ucsy.app.rmi.dto.*;
 import edu.ucsy.app.rmi.event.OnVoteEvent;
+import edu.ucsy.app.rmi.event.PollEndEvent;
 import edu.ucsy.app.utils.exception.VotingPlatformBusinessException;
 
 import java.rmi.RemoteException;
@@ -38,10 +39,25 @@ public class VotingServerImpl extends UnicastRemoteObject implements VotingServe
             try {
                 v.votingService().onVote(event);
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("Connection error with voter.");
             }
         });
 
+        checkLimit();
+    }
+
+    private void checkLimit() throws RemoteException {
+        if(poll.limit() != null && poll.limit().equals(voters.size())) {
+            var event = new PollEndEvent(poll);
+            host.votingService().onPollEnd(event);
+            voters.forEach(v -> {
+                try {
+                    v.votingService().onPollEnd(event);
+                } catch (RemoteException e) {
+                    System.out.println("Connection error with voter.");
+                }
+            });
+        }
     }
 
     private void validate(VoteForm form) {

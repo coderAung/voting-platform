@@ -2,22 +2,17 @@ package edu.ucsy.app.rmi.dto;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.List;
 
-public record OptionItem(
+public record OptionInfo(
         String id,
         String title,
-        List<String> voters
+        int votes
 ) implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public int votes() {
-        return voters.size();
-    }
-
-    public void addVote(String ipAddress) {
-        voters.add(ipAddress);
+    public static OptionInfo from(OptionItem optionItem) {
+        return new OptionInfo(optionItem.id(), optionItem.title(), optionItem.votes());
     }
 }

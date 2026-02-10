@@ -15,7 +15,7 @@ import java.util.concurrent.ScheduledFuture;
 
 @Service
 @RequiredArgsConstructor
-public class PollSchedulerService {
+public class PollSchedulingService {
 
     private final TaskScheduler scheduler;
     private final ApplicationEventPublisher publisher;

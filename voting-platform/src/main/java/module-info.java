@@ -18,6 +18,9 @@ module edu.ucsy.app.votingplatform {
     opens edu.ucsy.app to spring.core, spring.beans, spring.context,
             javafx.fxml;
     opens edu.ucsy.app.handler to spring.core, spring.beans, spring.context;
+    opens edu.ucsy.app.config to spring.core, spring.beans, spring.context;
+
+    opens edu.ucsy.app.server to spring.core, spring.beans, spring.context;
     opens edu.ucsy.app.server.repo to spring.core, spring.beans, spring.context;
     opens edu.ucsy.app.server.service to spring.core, spring.beans, spring.context;
     opens edu.ucsy.app.server.entities to spring.core, spring.beans, spring.context,
@@ -41,4 +44,5 @@ module edu.ucsy.app.votingplatform {
     exports edu.ucsy.app.rmi;
     exports edu.ucsy.app.rmi.dto;
     exports edu.ucsy.app.rmi.event;
+    exports edu.ucsy.app.rmi.dto.output;
 }

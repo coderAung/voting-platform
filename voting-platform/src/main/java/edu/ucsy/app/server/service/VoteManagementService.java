@@ -1,10 +1,13 @@
 package edu.ucsy.app.server.service;
 
-import edu.ucsy.app.rmi.dto.VoteForm;
+import edu.ucsy.app.rmi.dto.OptionItem;
+import edu.ucsy.app.rmi.dto.VoteDetail;
 
-public class VoteManagementService {
+import java.util.List;
 
-    public void create(VoteForm form) {
+public interface VoteManagementService {
 
-    }
+    void create(VoteDetail form);
+
+    void bulkCreate(List<OptionItem> items);
 }

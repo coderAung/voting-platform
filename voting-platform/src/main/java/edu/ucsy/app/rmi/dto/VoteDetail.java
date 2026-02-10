@@ -1,13 +1,13 @@
-package edu.ucsy.app.rmi.event;
+package edu.ucsy.app.rmi.dto;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.UUID;
+import java.time.LocalDateTime;
 
-public record OnVoteEvent(
-        UUID pollId,
+public record VoteDetail(
         String optionId,
-        int votes
+        String ipAddress,
+        LocalDateTime votedAt
 ) implements Serializable {
 
     @Serial

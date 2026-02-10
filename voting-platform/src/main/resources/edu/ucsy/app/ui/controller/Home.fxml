@@ -1,12 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="edu.ucsy.app.ui.controller.Home"
-      prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-    <Label>Hello home</Label>
+<ScrollPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="edu.ucsy.app.ui.controller.Home"
+            fitToWidth="true"
+            hbarPolicy="NEVER"
+            vbarPolicy="AS_NEEDED"
+            stylesheets="@css/application.css">
 
-</VBox>
+    <VBox spacing="30" styleClass="page-root">
+        <padding>
+            <Insets top="40" right="60" bottom="40" left="60"/>
+        </padding>
+
+        <!-- Welcome -->
+        <VBox alignment="CENTER" spacing="10">
+            <Label text="Welcome to Voting System" styleClass="title"/>
+            <Label text="Create polls, vote, and view results all in one place" styleClass="subtitle"/>
+        </VBox>
+
+        <!-- Stats -->
+        <HBox spacing="30" alignment="CENTER">
+            <VBox styleClass="stat-card">
+                <Label fx:id="activePollsLabel" text="0" styleClass="stat-value"/>
+                <Label text="Active Polls" styleClass="stat-label"/>
+            </VBox>
+
+            <VBox styleClass="stat-card">
+                <Label fx:id="totalVotesLabel" text="0" styleClass="stat-value green"/>
+                <Label text="Total Votes" styleClass="stat-label"/>
+            </VBox>
+
+            <VBox styleClass="stat-card">
+                <Label fx:id="completedPollsLabel" text="0" styleClass="stat-value orange"/>
+                <Label text="Completed" styleClass="stat-label"/>
+            </VBox>
+        </HBox>
+
+        <!-- Join Poll -->
+        <VBox styleClass="card" spacing="15" alignment="CENTER">
+            <Label text="Join Poll" styleClass="card-title"/>
+
+            <TextField fx:id="pollUrlField" promptText="Enter poll URL"/>
+            <Label text="OR"/>
+            <TextField fx:id="pollCodeField" promptText="Enter poll code"/>
+
+            <Button text="Join Poll" onAction="#handleJoinPoll" styleClass="primary-btn"/>
+        </VBox>
+
+    </VBox>
+</ScrollPane>

@@ -24,6 +24,7 @@ module edu.ucsy.app.votingplatform {
     opens edu.ucsy.app.server to spring.core, spring.beans, spring.context;
     opens edu.ucsy.app.server.repo to spring.core, spring.beans, spring.context;
     opens edu.ucsy.app.server.service to spring.core, spring.beans, spring.context;
+    opens edu.ucsy.app.server.service.impl to spring.core, spring.beans, spring.context;
     opens edu.ucsy.app.server.entities to spring.core, spring.beans, spring.context,
             spring.data.jpa, jakarta.persistence, org.hibernate.orm.core;
     opens edu.ucsy.app.server.entities.pk to spring.core, spring.beans, spring.context,

@@ -34,7 +34,7 @@ public class VotingEventHandler {
             if(!poll.ipAddress().equals(ipAddress)) {
                 pollService.create(poll, false);
             } else {
-                voteService.bulkCreate(poll.options());
+                voteService.bulkCreate(poll.id(), poll.options());
             }
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);

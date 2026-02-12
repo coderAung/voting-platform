@@ -26,14 +26,29 @@ public class VotingPlatFormApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        var view = (Parent) FXMLLoader.load(Objects.requireNonNull(Home.class.getResource("Home.fxml")));
-        stage.setScene(new Scene(view));
+
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/edu/ucsy/app/ui/controller/MasterLayout.fxml")
+        );
+
+        loader.setControllerFactory(context::getBean);
+
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root, 1024, 768);
+        stage.setScene(scene);
+        stage.setTitle("Voting Platform");
         stage.show();
     }
 
     public static void main(String[] args) {
-        context = SpringApplication.run(VotingPlatFormApp.class);
+//        context = SpringApplication.run(VotingPlatFormApp.class);
         launch(args);
+    }
+
+    @Override
+    public void init() throws Exception {
+        context = SpringApplication.run(VotingPlatFormApp.class);
     }
 
     @Override

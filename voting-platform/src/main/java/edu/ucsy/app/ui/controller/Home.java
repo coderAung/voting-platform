@@ -1,5 +1,6 @@
 package edu.ucsy.app.ui.controller;
 
+import edu.ucsy.app.ui.Page;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class Home {
+
+    private final MasterLayout masterLayout;
 
     @FXML private TextField pollUrlField;
     @FXML private TextField pollCodeField;
@@ -24,12 +27,12 @@ public class Home {
     }
 
     private void setupFieldLogic() {
-        pollUrlField.textProperty().addListener((a,b,c) -> {
-            if (!c.isEmpty()) pollCodeField.clear();
+        pollUrlField.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal.isBlank()) pollCodeField.clear();
         });
 
-        pollCodeField.textProperty().addListener((a,b,c) -> {
-            if (!c.isEmpty()) pollUrlField.clear();
+        pollCodeField.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal.isBlank()) pollUrlField.clear();
         });
     }
 
@@ -37,6 +40,21 @@ public class Home {
         activePollsLabel.setText("0");
         totalVotesLabel.setText("0");
         completedPollsLabel.setText("0");
+    }
+
+    @FXML
+    private void handleCreatePoll() {
+        masterLayout.showPage(Page.ActivePoll);
+    }
+
+    @FXML
+    private void handleViewResults() {
+        masterLayout.showPage(Page.ActivePoll);
+    }
+
+    @FXML
+    private void handleViewHistory() {
+        masterLayout.showPage(Page.History);
     }
 
     @FXML

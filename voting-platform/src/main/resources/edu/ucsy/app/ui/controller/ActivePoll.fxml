@@ -1,12 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="edu.ucsy.app.ui.controller.ActivePoll"
-      prefHeight="400.0" prefWidth="600.0">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-    <Label text="Active Poll Contents" />
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+            styleClass="page-root" stylesheets="@css/application.css"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="edu.ucsy.app.ui.controller.ActivePoll">
+    <content>
+        <VBox spacing="30" styleClass="page-root" alignment="TOP_CENTER">
+            <padding>
+                <Insets bottom="40" left="60" right="60" top="40" />
+            </padding>
+            <children>
 
-</VBox>
+                <VBox spacing="25" styleClass="card" maxWidth="800">
+                    <children>
+                        <VBox spacing="10" alignment="CENTER">
+                            <Label text="CURRENT POLL" style="-fx-text-fill: #3498db; -fx-font-weight: bold; -fx-font-size: 14px;"/>
+                            <Label fx:id="pollTitleLabel" text="Who should be the next Student Council President?"
+                                   styleClass="title" wrapText="true" textAlignment="CENTER" style="-fx-font-size: 24px;"/>
+                            <Label fx:id="pollDescriptionLabel" text="Please select one candidate from the list below."
+                                   styleClass="subtitle" wrapText="true" textAlignment="CENTER"/>
+                        </VBox>
+
+                        <Separator />
+
+                        <VBox fx:id="optionsContainer" spacing="15">
+                            <children>
+                                <ToggleButton toggleGroup="$voteGroup" text="Candidate A: John Doe" maxWidth="Infinity" styleClass="choice-box" />
+                                <ToggleButton toggleGroup="$voteGroup" text="Candidate B: Jane Smith" maxWidth="Infinity" styleClass="choice-box" />
+                                <ToggleButton toggleGroup="$voteGroup" text="Candidate C: Alex Carter" maxWidth="Infinity" styleClass="choice-box" />
+                            </children>
+                        </VBox>
+
+                        <Region prefHeight="20" />
+
+                        <HBox spacing="15" alignment="CENTER">
+                            <children>
+                                <Button text="Cancel" styleClass="nav-btn" style="-fx-text-fill: #7f8c8d;" />
+                                <Button onAction="#handleVoteSubmit" text="Submit Vote" styleClass="primary-btn" prefWidth="200" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+
+                <Label text="Voting ends in: 02:45:10" style="-fx-text-fill: #e67e22; -fx-font-weight: bold;" />
+
+            </children>
+        </VBox>
+    </content>
+</ScrollPane>

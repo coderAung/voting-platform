@@ -16,7 +16,7 @@
 
             <HBox spacing="10" HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
                 <Button text="Home" fx:id="homeBtn" onAction="#showHome" styleClass="nav-btn"/>
-                <Button text="Active Poll" fx:id="activePollBtn" onAction="#showActivePoll" styleClass="nav-btn"/>
+<!--                <Button text="Active Poll" fx:id="activePollBtn" onAction="#showActivePoll" styleClass="nav-btn"/>-->
                 <Button text="History" fx:id="historyBtn" onAction="#showHistory" styleClass="nav-btn"/>
             </HBox>
         </HBox>

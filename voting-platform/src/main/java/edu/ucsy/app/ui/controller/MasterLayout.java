@@ -1,16 +1,14 @@
 package edu.ucsy.app.ui.controller;
 
-import javafx.animation.FadeTransition;
+import edu.ucsy.app.ui.Page;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
-import javafx.util.Duration;
+import javafx.scene.control.ScrollPane;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 
 @Component
@@ -18,67 +16,47 @@ import java.io.IOException;
 public class MasterLayout {
 
     @FXML private StackPane contentArea;
-    @FXML private Button homeBtn;
-    @FXML private Button activePollBtn;
-    @FXML private Button historyBtn;
-
     private final ApplicationContext springContext;
 
     @FXML
     public void initialize() {
-        showHome();
+        showPage(Page.Home);
     }
 
-    @FXML
-    public void showHome() {
-        setActiveButton(homeBtn);
-        loadView("/edu/ucsy/app/ui/controller/Home.fxml");
-    }
+    @FXML public void showHome() { showPage(Page.Home); }
+    @FXML public void showActivePoll() { showPage(Page.ActivePoll); }
+    @FXML public void showHistory() { showPage(Page.History); }
 
-    @FXML
-    public void showActivePoll() {
-        setActiveButton(activePollBtn);
-        loadView("/edu/ucsy/app/ui/controller/ActivePoll.fxml");
-    }
-
-    @FXML
-    public void showHistory() {
-        setActiveButton(historyBtn);
-        loadView("/edu/ucsy/app/ui/controller/History.fxml");
-    }
-
-    private void loadView(String path) {
+    public void showPage(Page page) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(page.getFxml()));
             loader.setControllerFactory(springContext::getBean);
-
             Parent view = loader.load();
 
-            FadeTransition fadeOut = new FadeTransition(Duration.millis(150), contentArea);
-            fadeOut.setFromValue(1);
-            fadeOut.setToValue(0);
-
-            fadeOut.setOnFinished(e -> {
+            // view က ScrollPane ဖြစ်နေရင် StackPane ထဲ တိုက်ရိုက်ထည့်
+            // မဟုတ် - ScrollPane အသစ်
+            if (view instanceof ScrollPane) {
                 contentArea.getChildren().setAll(view);
-
-                FadeTransition fadeIn = new FadeTransition(Duration.millis(200), view);
-                fadeIn.setFromValue(0);
-                fadeIn.setToValue(1);
-                fadeIn.play();
-            });
-
-            fadeOut.play();
-
+            } else {
+                ScrollPane scrollPane = new ScrollPane(view);
+                scrollPane.setFitToWidth(true);
+                scrollPane.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
+                contentArea.getChildren().setAll(scrollPane);
+            }
         } catch (IOException e) {
+            //noinspection CallToPrintStackTrace
             e.printStackTrace();
         }
     }
 
-    private void setActiveButton(Button active) {
-        homeBtn.getStyleClass().remove("active");
-        activePollBtn.getStyleClass().remove("active");
-        historyBtn.getStyleClass().remove("active");
-
-        active.getStyleClass().add("active");
+    // ScrollPane logic method
+    private Parent ensureScrolling(Parent view) {
+        if (view instanceof ScrollPane) {
+            return view;
+        }
+        ScrollPane scrollPane = new ScrollPane(view);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
+        return scrollPane;
     }
 }

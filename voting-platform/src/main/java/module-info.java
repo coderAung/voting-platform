@@ -13,6 +13,7 @@ module edu.ucsy.app.votingplatform {
     requires spring.boot;
     requires spring.boot.autoconfigure;
     requires org.hibernate.orm.core;
+    requires spring.tx;
 
     opens edu.ucsy.app.ui to javafx.fxml;
     opens edu.ucsy.app to spring.core, spring.beans, spring.context,

@@ -20,16 +20,16 @@ public class MasterLayout {
 
     @FXML
     public void initialize() {
-        showPage(Page.Home);
+        showPage(Home.class, Page.Home);
     }
 
-    @FXML public void showHome() { showPage(Page.Home); }
-    @FXML public void showActivePoll() { showPage(Page.ActivePoll); }
-    @FXML public void showHistory() { showPage(Page.History); }
+    @FXML public void showHome() { showPage(Home.class, Page.Home); }
+    @FXML public void showActivePoll() { showPage(ActivePoll.class, Page.ActivePoll); }
+    @FXML public void showHistory() { showPage(History.class, Page.History); }
 
-    public void showPage(Page page) {
+    public <T> void showPage(Class<T> clz, Page page) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(page.getFxml()));
+            FXMLLoader loader = new FXMLLoader(clz.getResource(page.getFxml()));
             loader.setControllerFactory(springContext::getBean);
             Parent view = loader.load();
 

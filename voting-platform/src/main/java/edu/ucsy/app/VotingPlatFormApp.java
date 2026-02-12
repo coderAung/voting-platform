@@ -1,6 +1,6 @@
 package edu.ucsy.app;
 
-import edu.ucsy.app.ui.controller.Home;
+import edu.ucsy.app.ui.controller.MasterLayout;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,8 +9,6 @@ import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-
-import java.util.Objects;
 
 @SpringBootApplication
 public class VotingPlatFormApp extends Application {
@@ -27,9 +25,7 @@ public class VotingPlatFormApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/edu/ucsy/app/ui/controller/MasterLayout.fxml")
-        );
+        FXMLLoader loader = new FXMLLoader(MasterLayout.class.getResource("MasterLayout.fxml"));
 
         loader.setControllerFactory(context::getBean);
 
@@ -42,13 +38,8 @@ public class VotingPlatFormApp extends Application {
     }
 
     public static void main(String[] args) {
-//        context = SpringApplication.run(VotingPlatFormApp.class);
-        launch(args);
-    }
-
-    @Override
-    public void init() throws Exception {
         context = SpringApplication.run(VotingPlatFormApp.class);
+        launch(args);
     }
 
     @Override

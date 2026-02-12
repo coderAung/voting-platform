@@ -44,17 +44,17 @@ public class Home {
 
     @FXML
     private void handleCreatePoll() {
-        masterLayout.showPage(Page.ActivePoll);
+        masterLayout.showPage(ActivePoll.class, Page.ActivePoll);
     }
 
     @FXML
     private void handleViewResults() {
-        masterLayout.showPage(Page.ActivePoll);
+        masterLayout.showPage(ActivePoll.class, Page.ActivePoll);
     }
 
     @FXML
     private void handleViewHistory() {
-        masterLayout.showPage(Page.History);
+        masterLayout.showPage(History.class, Page.History);
     }
 
     @FXML

@@ -44,6 +44,7 @@ public class PollManagementServiceImpl implements PollManagementService {
         for (var item : form.options()) {
             var option = new Option();
             option.setId(new OptionPk(poll.getId(), seq));
+            option.setTitle(item);
             options.add(option);
             seq ++;
         }
@@ -55,7 +56,8 @@ public class PollManagementServiceImpl implements PollManagementService {
     @Override
     @Transactional(readOnly = true)
     public PollDetail findById(UUID id) {
-        return pollRepo.findById(id).map(PollDetail::from).orElseThrow(() -> new VotingPlatformBusinessException("Poll with id : %s is not found.".formatted(id)));
+        return pollRepo.findById(id).map(PollDetail::from)
+                .orElseThrow(() -> new VotingPlatformBusinessException("Poll with id : %s is not found.".formatted(id)));
     }
 
     @Override

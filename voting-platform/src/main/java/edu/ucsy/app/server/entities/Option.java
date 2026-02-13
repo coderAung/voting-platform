@@ -4,6 +4,8 @@ import edu.ucsy.app.server.entities.pk.OptionPk;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Entity
 public class Option {
@@ -16,4 +18,7 @@ public class Option {
     @ManyToOne(optional = false, cascade = {CascadeType.ALL})
     @JoinColumn(insertable = false, updatable = false)
     private Poll poll;
+
+    @OneToMany(mappedBy = "option")
+    private List<Vote> votes;
 }

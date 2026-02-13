@@ -5,7 +5,6 @@ import edu.ucsy.app.server.entities.pk.OptionPk;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public record OptionItem(
@@ -33,6 +32,11 @@ public record OptionItem(
     }
 
     public static OptionItem from(Option option) {
-        return new OptionItem(option.getId().toId(), option.getTitle(), new ArrayList<>());
+        return new OptionItem(
+                option.getId().toId(),
+                option.getTitle(),
+                option.getVotes().stream()
+                        .map(VoteDetail::from)
+                        .toList());
     }
 }

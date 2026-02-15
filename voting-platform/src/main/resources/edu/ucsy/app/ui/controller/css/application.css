@@ -101,3 +101,99 @@
 .table-row-cell:hover {
     -fx-background-color: #f1f5f9;
 }
+
+.page-root {
+    -fx-background-color: linear-gradient(to bottom right, #f1f5ff, #f8fafc);
+}
+
+.title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+.subtitle {
+    -fx-text-fill: #64748b;
+    -fx-font-size: 13px;
+}
+
+/* Card */
+.poll-card {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 25, 0.3, 0, 10);
+}
+
+/* Title */
+.poll-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #0f172a;
+}
+
+/* Meta */
+.poll-meta {
+    -fx-font-size: 12px;
+    -fx-text-fill: #94a3b8;
+}
+
+/* Status badges */
+.status-badge {
+    -fx-background-color: #6366f1;
+    -fx-text-fill: white;
+    -fx-padding: 4 12 4 12;
+    -fx-background-radius: 50;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+
+.status-badge-active {
+    -fx-background-color: #10b981;
+    -fx-text-fill: white;
+    -fx-padding: 4 12 4 12;
+    -fx-background-radius: 50;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+
+.status-badge-closed {
+    -fx-background-color: #64748b;
+    -fx-text-fill: white;
+    -fx-padding: 4 12 4 12;
+    -fx-background-radius: 50;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+
+/* Delete Button */
+.delete-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: #ef4444;
+    -fx-text-fill: #ef4444;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10 4 10;
+    -fx-font-size: 11px;
+}
+
+.delete-btn:hover {
+    -fx-background-color: #ef4444;
+    -fx-text-fill: white;
+}
+
+/* Option rows */
+.option-row {
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 12;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 12;
+    -fx-padding: 8 14 8 14;
+}
+
+/* Winner highlight */
+.winner {
+    -fx-border-color: #63f16c;
+    -fx-border-width: 0 0 0 3;
+    -fx-background-color: #eef2ff;
+}

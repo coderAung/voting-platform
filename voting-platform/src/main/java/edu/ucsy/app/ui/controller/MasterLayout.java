@@ -29,12 +29,13 @@ public class MasterLayout {
 
     public <T> void showPage(Class<T> clz, Page page) {
         try {
-            FXMLLoader loader = new FXMLLoader(clz.getResource(page.getFxml()));
+            // Use getClass().getResourceAsStream with the full path from Page enum
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource(page.getFxml())
+            );
             loader.setControllerFactory(springContext::getBean);
             Parent view = loader.load();
 
-            // view က ScrollPane ဖြစ်နေရင် StackPane ထဲ တိုက်ရိုက်ထည့်
-            // မဟုတ် - ScrollPane အသစ်
             if (view instanceof ScrollPane) {
                 contentArea.getChildren().setAll(view);
             } else {
@@ -44,12 +45,10 @@ public class MasterLayout {
                 contentArea.getChildren().setAll(scrollPane);
             }
         } catch (IOException e) {
-            //noinspection CallToPrintStackTrace
             e.printStackTrace();
         }
     }
 
-    // ScrollPane logic method
     private Parent ensureScrolling(Parent view) {
         if (view instanceof ScrollPane) {
             return view;

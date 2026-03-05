@@ -5,8 +5,12 @@ import edu.ucsy.app.server.service.PollManagementService;
 import edu.ucsy.app.ui.Page;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -31,6 +35,10 @@ public class Home {
     @FXML
     public void initialize() {
         setupFieldLogic();
+
+        choicesContainer.getChildren().clear();
+        addOptionRow();
+        addOptionRow();
     }
 
     private void setupFieldLogic() {
@@ -39,24 +47,49 @@ public class Home {
         });
     }
 
-    @FXML
-    private void handleAddOption(ActionEvent event){
-        int count = choicesContainer.getChildren().size()+1;
+    public void addOptionRow() {
+        HBox row = new HBox(10);
+        row.setAlignment(Pos.CENTER_LEFT);
+
         TextField newOption = new TextField();
-        newOption.setPromptText("Option "+ count);
-        choicesContainer.getChildren().add(newOption);
+        newOption.setPromptText("Option " + (choicesContainer.getChildren().size() + 1));
+        HBox.setHgrow(newOption, Priority.ALWAYS);
+
+        Button removeBtn = new Button("✕");
+        removeBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand; -fx-font-weight: bold;");
+
+        removeBtn.setOnAction(e -> choicesContainer.getChildren().remove(row));
+
+        row.getChildren().addAll(newOption, removeBtn);
+        choicesContainer.getChildren().add(row);
+    }
+
+    @FXML
+    public void handleAddOption(ActionEvent event) {
+        addOptionRow();
     }
     @FXML
-    private void handleCreatePoll() {
+    public void handleCreatePoll() {
         if (newPollTitle.getText().isBlank()) {
             showAlert(Alert.AlertType.WARNING, "Please enter a poll question.");
             return;
         }
 
         List<String> options = choicesContainer.getChildren().stream()
-                .filter(n -> n instanceof TextField)
-                .map(n -> ((TextField) n).getText())
-                .filter(t -> !t.isBlank())
+                .map(node -> {
+                    if (node instanceof HBox hb) {
+                        return hb.getChildren().stream()
+                                .filter(child -> child instanceof TextField)
+                                .map(child -> ((TextField) child).getText())
+                                .findFirst().orElse("");
+                    }
+                    if (node instanceof TextField tf) {
+                        return tf.getText();
+                    }
+                    return "";
+                })
+                .map(String::trim)
+                .filter(t -> !t.isEmpty())
                 .collect(Collectors.toList());
 
         if (options.size() < 2) {

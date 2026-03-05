@@ -27,14 +27,16 @@ public class MasterLayout {
     @FXML public void showActivePoll() { showPage(ActivePoll.class, Page.ActivePoll); }
     @FXML public void showHistory() { showPage(History.class, Page.History); }
 
+    private Object lastController;
+
     public <T> void showPage(Class<T> clz, Page page) {
         try {
-            // Use getClass().getResourceAsStream with the full path from Page enum
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource(page.getFxml())
             );
             loader.setControllerFactory(springContext::getBean);
             Parent view = loader.load();
+            lastController = loader.getController();
 
             if (view instanceof ScrollPane) {
                 contentArea.getChildren().setAll(view);
@@ -49,6 +51,11 @@ public class MasterLayout {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public <T> T getController(Class<T> clz) {
+        return (T) lastController;
+    }
+
     private Parent ensureScrolling(Parent view) {
         if (view instanceof ScrollPane) {
             return view;
@@ -58,4 +65,6 @@ public class MasterLayout {
         scrollPane.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
         return scrollPane;
     }
+
+
 }

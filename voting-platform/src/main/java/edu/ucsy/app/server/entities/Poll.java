@@ -29,7 +29,7 @@ public class Poll {
     @Column(nullable = false)
     private Boolean isOwner;
 
-    @OneToMany(mappedBy = "poll")
+    @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER)
     private List<Option> options;
 
     public enum Status {

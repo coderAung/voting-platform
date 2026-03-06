@@ -44,7 +44,7 @@
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0" spacing="4.0">
                            <children>
-                              <Label text="End Time" />
+                              <Label text="Duration (minute)" />
                               <ComboBox fx:id="endTime" prefWidth="150.0" promptText="- min" />
                            </children>
                         </VBox>
@@ -73,7 +73,7 @@
                 </VBox>
             <VBox>
                <children>
-                  <Button fx:id="activePoll" maxWidth="Infinity" style="-fx-background-color: #ef4444;" styleClass="primary-btn" text="Active Poll" />
+                  <Button fx:id="activePollBtn" maxWidth="Infinity" style="-fx-background-color: #ef4444;" styleClass="primary-btn" text="Active Poll" />
                </children>
             </VBox>
 

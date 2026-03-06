@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public record OnVoteEvent(
         UUID pollId,
+        String pollIpAddress,
         String optionId,
         int votes
 ) implements Serializable {

@@ -1,6 +1,7 @@
 package edu.ucsy.app.ui.controller;
 
 import edu.ucsy.app.rmi.dto.output.PollInfo;
+import edu.ucsy.app.server.entities.Poll;
 import edu.ucsy.app.server.service.PollManagementService;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -54,10 +55,12 @@ public class History {
         actionBox.setSpacing(8);
         actionBox.getChildren().add(status);
 
-        var deleteBtn = new Button("Delete");
-        deleteBtn.getStyleClass().add("delete-btn");
-        deleteBtn.setOnAction(ev -> delete(pollInfo.id()));
-        actionBox.getChildren().add(deleteBtn);
+        if(!pollInfo.status().equals(Poll.Status.Active)) {
+            var deleteBtn = new Button("Delete");
+            deleteBtn.getStyleClass().add("delete-btn");
+            deleteBtn.setOnAction(ev -> delete(pollInfo.id()));
+            actionBox.getChildren().add(deleteBtn);
+        }
 
         hbox.getChildren().add(labelBox);
         hbox.getChildren().add(actionBox);

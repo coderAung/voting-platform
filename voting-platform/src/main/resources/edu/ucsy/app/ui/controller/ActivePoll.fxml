@@ -10,48 +10,38 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="page-root" stylesheets="@css/application.css"
-            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="edu.ucsy.app.ui.controller.ActivePoll">
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="page-root" stylesheets="@css/application.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ucsy.app.ui.controller.ActivePoll">
     <VBox alignment="TOP_CENTER" spacing="30" styleClass="page-root">
         <padding>
-            <Insets bottom="40" left="60" right="60" top="40"/>
+            <Insets bottom="40" left="60" right="60" top="40" />
         </padding>
         <VBox maxWidth="800" spacing="25" styleClass="card">
             <VBox alignment="CENTER" spacing="10">
-                <Label style="-fx-text-fill: #3498db; -fx-font-weight: bold; -fx-font-size: 14px;"
-                       text="CURRENT POLL"/>
-                <Label fx:id="ipAddressLabel" text="IP Address"/>
-                <Label fx:id="pollTitleLabel" style="-fx-font-size: 24px;" styleClass="title"
-                       text="Who should be the next Student Council President?" wrapText="true"/>
-                <Label fx:id="pollDescriptionLabel" styleClass="subtitle"
-                       text="Please select one candidate from the list below." textAlignment="CENTER"
-                       wrapText="true"/>
+                <Label style="-fx-text-fill: #3498db; -fx-font-weight: bold; -fx-font-size: 14px;" text="CURRENT POLL" />
+                <Label fx:id="ipAddressLabel" text="IP Address" />
+                <Label fx:id="pollTitleLabel" style="-fx-font-size: 24px;" styleClass="title" text="Who should be the next Student Council President?" wrapText="true" />
+                <Label fx:id="pollDescriptionLabel" styleClass="subtitle" text="Please select one candidate from the list below." textAlignment="CENTER" wrapText="true" />
             </VBox>
 
-            <Separator/>
+            <Separator />
 
             <VBox fx:id="optionsContainer" spacing="15">
-                <ToggleButton alignment="CENTER_LEFT" styleClass="my-toggle" text="Candidate A: John Doe"
-                              textAlignment="JUSTIFY">
+                <ToggleButton alignment="CENTER_LEFT" styleClass="my-toggle" text="Candidate A: John Doe" textAlignment="JUSTIFY">
                     <toggleGroup>
-                        <ToggleGroup/>
+                        <ToggleGroup />
                     </toggleGroup>
                 </ToggleButton>
-                <ToggleButton alignment="CENTER_LEFT" styleClass="my-toggle"
-                              text="Candidate B: Jane Smith"/>
-                <ToggleButton alignment="CENTER_LEFT" styleClass="my-toggle"
-                              text="Candidate C: Alex Carter"/>
+                <ToggleButton alignment="CENTER_LEFT" styleClass="my-toggle" text="Candidate B: Jane Smith" />
+                <ToggleButton alignment="CENTER_LEFT" styleClass="my-toggle" text="Candidate C: Alex Carter" />
             </VBox>
 
             <HBox alignment="CENTER" spacing="15">
-                <Button style="-fx-text-fill: #7f8c8d;" styleClass="nav-btn" text="Cancel"/>
-                <Button onAction="#handleVoteSubmit" prefWidth="200" styleClass="primary-btn"
-                        text="Submit Vote"/>
+                <Button style="-fx-text-fill: #7f8c8d;" styleClass="nav-btn" text="Cancel" />
+                <Button fx:id="submitBtn" prefWidth="200" styleClass="primary-btn" text="Submit Vote" />
             </HBox>
         </VBox>
 
-        <Label style="-fx-text-fill: #e67e22; -fx-font-weight: bold;" text="Voting ends at: 02:45:10"/>
+        <Label fx:id="voteEndTimeLabel" style="-fx-text-fill: #e67e22; -fx-font-weight: bold;" />
 
     </VBox>
 </ScrollPane>

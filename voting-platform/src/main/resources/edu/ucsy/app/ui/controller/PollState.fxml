@@ -40,7 +40,7 @@
             </HBox>
         </VBox>
 
-        <Label style="-fx-text-fill: #e67e22; -fx-font-weight: bold;" text="Voting ends at: 02:45:10" />
+        <Label fx:id="voteEndTimeLabel" style="-fx-text-fill: #e67e22; -fx-font-weight: bold;" text="Voting ends at: 02:45:10" />
 
     </VBox>
 </ScrollPane>

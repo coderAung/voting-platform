@@ -31,6 +31,7 @@ public class VotingServerImpl extends UnicastRemoteObject implements VotingServe
 
         var event = new OnVoteEvent(
                 poll.id(),
+                poll.ipAddress(),
                 form.optionId(),
                 poll.getVotesByOptionId(form.optionId()));
 

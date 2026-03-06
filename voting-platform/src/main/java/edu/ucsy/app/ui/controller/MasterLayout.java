@@ -31,20 +31,15 @@ public class MasterLayout {
     }
 
     @FXML public void showHome() { showPage(Home.class, Page.Home); }
-    @FXML public void showActivePoll() { showPage(ActivePoll.class, Page.ActivePoll); }
     @FXML public void showHistory() { showPage(History.class, Page.History); }
-
-    private Object lastController;
 
     public <T> void showPage(Class<T> clz, Page page) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource(page.getFxml())
+                    clz.getResource(page.getFxml())
             );
             loader.setControllerFactory(springContext::getBean);
             Parent view = loader.load();
-            lastController = loader.getController();
-
             if (view instanceof ScrollPane) {
                 contentArea.getChildren().setAll(view);
             } else {
@@ -54,13 +49,8 @@ public class MasterLayout {
                 contentArea.getChildren().setAll(scrollPane);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T> T getController(Class<T> clz) {
-        return (T) lastController;
     }
 
     private Parent ensureScrolling(Parent view) {

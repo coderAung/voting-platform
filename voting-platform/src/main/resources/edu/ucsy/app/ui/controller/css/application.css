@@ -119,6 +119,7 @@
 
 /* Card */
 .poll-card {
+    -fx-padding: 18 22 18 22;
     -fx-background-color: white;
     -fx-background-radius: 20;
     -fx-border-radius: 20;
@@ -191,9 +192,39 @@
     -fx-padding: 8 14 8 14;
 }
 
+.option-row .label {
+    -fx-text-fill: black;
+}
+
 /* Winner highlight */
 .winner {
     -fx-border-color: #63f16c;
     -fx-border-width: 0 0 0 3;
     -fx-background-color: #eef2ff;
+}
+
+/* Base style */
+.my-toggle {
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #333;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 8 20 8 20;
+    -fx-cursor: hand;
+}
+
+/* Hover effect */
+.my-toggle:hover {
+    -fx-background-color: #d0d0d0;
+}
+
+/* Selected (pressed) state */
+.my-toggle:selected {
+    -fx-border-color: #4CAF50;
+    -fx-border-width: 2px;
+}
+
+.toggle-box {
+    -fx-spacing: 8;
+    -fx-alignment: center-left;
 }

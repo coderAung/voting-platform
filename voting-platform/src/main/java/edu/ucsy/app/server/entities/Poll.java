@@ -34,7 +34,10 @@ public class Poll {
     @Column(nullable = false)
     private Boolean isOwner;
 
-    @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "poll",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<Option> options;
 
     public enum Status implements Serializable {

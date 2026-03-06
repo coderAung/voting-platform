@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -30,6 +31,27 @@
                     <Label style="-fx-font-weight: bold;" text="Poll Question" />
                     <TextField fx:id="newPollTitle" promptText="What is your favorite programming language?" />
                 </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="8.0">
+               <children>
+                  <Label style="-fx-font-weight: bold;" text="Controls" />
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="4.0">
+                           <children>
+                              <Label text="Limit" />
+                              <TextField fx:id="voteLimit" promptText="0" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="4.0">
+                           <children>
+                              <Label text="End Time" />
+                              <ComboBox fx:id="endTime" prefWidth="150.0" promptText="- min" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
 
                 <VBox spacing="8">
                     <Label style="-fx-font-weight: bold;" text="Options (Choices)" />
@@ -37,10 +59,10 @@
                         <TextField promptText="Option 1" />
                         <TextField promptText="Option 2" />
                     </VBox>
-                    <Button onAction="#handleAddOption" fx:id="addOptionBtn" style="-fx-background-color: transparent; -fx-text-fill: #3498db; -fx-cursor: hand;" text="+ Add Option" />
+                    <Button fx:id="addOptionBtn" onAction="#handleAddOption" style="-fx-background-color: transparent; -fx-text-fill: #3498db; -fx-cursor: hand;" text="+ Add Option" />
                 </VBox>
 
-                <Button maxWidth="Infinity" onAction="#handleCreatePoll" styleClass="primary-btn" text="Launch Poll" />
+                <Button fx:id="createBtn" maxWidth="Infinity" onAction="#handleCreatePoll" styleClass="primary-btn" text="Launch Poll" />
             </VBox>
 
             <VBox prefWidth="350" spacing="20">
@@ -49,6 +71,11 @@
                     <TextField fx:id="pollCodeField" promptText="Enter Server IP (e.g. 255.255.255.255)" />
                     <Button maxWidth="Infinity" onAction="#handleJoinPoll" style="-fx-background-color: #9b59b6;" styleClass="primary-btn" text="Join Now" />
                 </VBox>
+            <VBox>
+               <children>
+                  <Button fx:id="activePoll" maxWidth="Infinity" style="-fx-background-color: #ef4444;" styleClass="primary-btn" text="Active Poll" />
+               </children>
+            </VBox>
 
             </VBox>
         </HBox>

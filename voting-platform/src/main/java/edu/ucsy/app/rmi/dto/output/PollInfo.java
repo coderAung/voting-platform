@@ -29,6 +29,10 @@ public record PollInfo(
         );
     }
 
+    public OptionInfo winner() {
+        return options.stream().max((a, b) -> Math.max(a.votes(), b.votes())).orElseThrow();
+    }
+
     public long total() {
         return options.stream().mapToLong(OptionInfo::votes).sum();
     }

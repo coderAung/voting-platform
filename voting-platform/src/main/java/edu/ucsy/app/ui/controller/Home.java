@@ -1,21 +1,23 @@
 package edu.ucsy.app.ui.controller;
 
 import edu.ucsy.app.rmi.dto.PollForm;
+import edu.ucsy.app.rmi.dto.output.PollInfo;
 import edu.ucsy.app.server.service.PollManagementService;
 import edu.ucsy.app.ui.Page;
+import edu.ucsy.app.utils.RmiUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -29,14 +31,32 @@ public class Home {
     private final PollManagementService pollService;
 
     @FXML private TextField newPollTitle;
+    @FXML private TextField voteLimit;
+    @FXML private ComboBox<Integer> endTime;
     @FXML private TextField pollCodeField;
     @FXML private VBox choicesContainer;
+    @FXML private Button createBtn;
+    @FXML private Button activePoll;
 
     @FXML
     public void initialize() {
+
+        createBtn.setDisable(MasterLayout.getCurrentPoll() != null);
+        activePoll.setDisable(MasterLayout.getCurrentPoll() == null);
+
+        activePoll.setOnAction(ev -> masterLayout.showPage(PollState.class, Page.PollState));
+
         setupFieldLogic();
+        voteLimit.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                voteLimit.setText(newValue.replaceAll("\\D", ""));
+            }
+        });
+
+        endTime.getItems().addAll(10, 30, 60);
 
         choicesContainer.getChildren().clear();
+
         addOptionRow();
         addOptionRow();
     }
@@ -97,17 +117,21 @@ public class Home {
             return;
         }
 
-        var form = new PollForm(
-                newPollTitle.getText(),
-                LocalDateTime.now().plusHours(1),
-                null,
-                options
-        );
-        UUID pollId = pollService.create(form);
+        try {
+            var form = new PollForm(
+                    newPollTitle.getText(),
+                    RmiUtils.getLocalIpAddress(),
+                    endTime.getValue() == null ? null : LocalDateTime.now().plusHours(endTime.getValue()),
+                    StringUtils.hasLength(voteLimit.getText()) || voteLimit.getText().equals("") ? null : Integer.parseInt(voteLimit.getText()),
+                    options
+            );
+            UUID pollId = pollService.create(form);
+            MasterLayout.setCurrentPoll(new PollInfo(pollService.findById(pollId)));
+            masterLayout.showPage(PollState.class, Page.PollState);
 
-        masterLayout.showPage(ActivePoll.class, Page.ActivePoll);
-        var activePoll = masterLayout.getController(ActivePoll.class);
-        activePoll.loadPoll(pollId);
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML

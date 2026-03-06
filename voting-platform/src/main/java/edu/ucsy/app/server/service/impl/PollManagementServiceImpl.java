@@ -32,6 +32,7 @@ public class PollManagementServiceImpl implements PollManagementService {
         var seq = 1;
         var poll = new Poll();
         poll.setTitle(form.title());
+        poll.setIpAddress(form.ipAddress());
         poll.setEndTime(form.endTime());
         poll.setVoteLimit(form.voteLimit());
         poll.setStatus(Poll.Status.Active);
@@ -70,6 +71,9 @@ public class PollManagementServiceImpl implements PollManagementService {
     @Transactional
     public void delete(UUID id) {
         var poll = pollRepo.findById(id).orElseThrow(() -> new VotingPlatformBusinessException("Poll with id : %s is not found.".formatted(id)));
+        if(poll.getStatus().equals(Poll.Status.Active)) {
+            throw new VotingPlatformBusinessException("Active poll cannot be deleted.");
+        }
         pollRepo.delete(poll);
     }
 
@@ -80,5 +84,12 @@ public class PollManagementServiceImpl implements PollManagementService {
         var options = detail.options().stream().map(OptionItem::getEntity).toList();
         pollRepo.save(poll);
         optionRepo.saveAll(options);
+    }
+
+    @Override
+    public void changeStatus(UUID id, Poll.Status status) {
+        var poll = pollRepo.findById(id).orElseThrow(() -> new VotingPlatformBusinessException("Poll with id : %s is not found.".formatted(id)));
+        poll.setStatus(status);
+        pollRepo.save(poll);
     }
 }

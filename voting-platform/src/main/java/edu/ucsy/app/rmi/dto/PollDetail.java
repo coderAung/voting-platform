@@ -1,6 +1,5 @@
 package edu.ucsy.app.rmi.dto;
 
-import edu.ucsy.app.rmi.dto.output.PollInfo;
 import edu.ucsy.app.server.entities.Poll;
 
 import java.io.Serial;
@@ -13,6 +12,7 @@ public record PollDetail(
         UUID id,
         String title,
         String ipAddress,
+        LocalDateTime createdAt,
         LocalDateTime endTime,
         Integer limit,
         Poll.Status status,
@@ -22,8 +22,17 @@ public record PollDetail(
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public PollDetail(PollInfo info, List<OptionItem> options) {
-        this(info.id(), info.title(), info.ipAddress(), info.endTime(), info.limit(), info.status(), options);
+    public static PollDetail from(Poll poll) {
+        return new PollDetail(
+                poll.getId(),
+                poll.getTitle(),
+                poll.getIpAddress(),
+                poll.getCreatedAt(),
+                poll.getEndTime(),
+                poll.getVoteLimit(),
+                poll.getStatus(),
+                poll.getOptions().stream().map(OptionItem::from).toList()
+        );
     }
 
     public long total() {
@@ -43,4 +52,17 @@ public record PollDetail(
                 .orElseThrow()
                 .votes();
     }
+
+    public Poll getEntity(boolean isOwner) {
+        var poll = new Poll();
+        poll.setId(id);
+        poll.setTitle(title);
+        poll.setCreatedAt(createdAt);
+        poll.setEndTime(endTime);
+        poll.setStatus(status);
+        poll.setIsOwner(isOwner);
+        poll.setVoteLimit(limit);
+        return poll;
+    }
+
 }

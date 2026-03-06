@@ -6,9 +6,10 @@ import edu.ucsy.app.rmi.dto.PollForm;
 import edu.ucsy.app.server.entities.Option;
 import edu.ucsy.app.server.entities.Poll;
 import edu.ucsy.app.server.entities.pk.OptionPk;
-import edu.ucsy.app.server.repo.PollRepo;
 import edu.ucsy.app.server.repo.OptionRepo;
+import edu.ucsy.app.server.repo.PollRepo;
 import edu.ucsy.app.server.service.PollManagementService;
+import edu.ucsy.app.utils.exception.VotingPlatformBusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +18,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -29,80 +29,56 @@ public class PollManagementServiceImpl implements PollManagementService {
     @Override
     @Transactional
     public UUID create(PollForm form) {
+        var seq = 1;
         var poll = new Poll();
         poll.setTitle(form.title());
-        poll.setCreatedAt(LocalDateTime.now());
         poll.setEndTime(form.endTime());
         poll.setVoteLimit(form.voteLimit());
         poll.setStatus(Poll.Status.Active);
+        poll.setCreatedAt(LocalDateTime.now());
         poll.setIsOwner(true);
-        var saved = pollRepo.save(poll);
 
-        // 2. Save each Option
-        IntStream.range(0, form.options().size()).forEach(i -> {
-            var pk = new OptionPk();
-            pk.setPollId(saved.getId());
-            pk.setSequenceNo(i + 1);
+        poll = pollRepo.save(poll);
 
+        var options = new ArrayList<Option>();
+        for (var item : form.options()) {
             var option = new Option();
-            option.setId(pk);
-            option.setTitle(form.options().get(i));
-            option.setPoll(saved);
-            optionRepo.save(option);
-        });
+            option.setId(new OptionPk(poll.getId(), seq));
+            option.setTitle(item);
+            options.add(option);
+            seq ++;
+        }
+        optionRepo.saveAll(options);
 
-        return saved.getId();
+        return poll.getId();
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public PollDetail findById(UUID id) {
-        var poll = pollRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Poll not found: " + id));
-
-        var options = poll.getOptions().stream()
-                .map(o -> new OptionItem(
-                        o.getId().getPollId() + "-" + o.getId().getSequenceNo(),
-                        o.getTitle(),
-                        new ArrayList<>()
-                ))
-                .toList();
-
-        return new PollDetail(
-                poll.getId(),
-                poll.getTitle(),
-                null,
-                poll.getEndTime(),
-                poll.getVoteLimit(),
-                poll.getStatus(),
-                options
-        );
+        return pollRepo.findById(id).map(PollDetail::from)
+                .orElseThrow(() -> new VotingPlatformBusinessException("Poll with id : %s is not found.".formatted(id)));
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<PollDetail> getAll() {
-        return pollRepo.findAll().stream()
-                .map(poll -> findById(poll.getId()))
-                .toList();
+        return pollRepo.findAll().stream().map(PollDetail::from).toList();
     }
 
     @Override
     @Transactional
     public void delete(UUID id) {
-        pollRepo.deleteById(id);
+        var poll = pollRepo.findById(id).orElseThrow(() -> new VotingPlatformBusinessException("Poll with id : %s is not found.".formatted(id)));
+        pollRepo.delete(poll);
     }
 
     @Override
     @Transactional
-    public void create(PollDetail poll, boolean isOwner) {
-        var entity = new Poll();
-        entity.setId(poll.id());
-        entity.setTitle(poll.title());
-        entity.setCreatedAt(LocalDateTime.now());
-        entity.setEndTime(poll.endTime());
-        entity.setStatus(poll.status());
-        entity.setIsOwner(isOwner);
-        pollRepo.save(entity);
+    public void create(PollDetail detail, boolean isOwner) {
+        var poll = detail.getEntity(isOwner);
+        var options = detail.options().stream().map(OptionItem::getEntity).toList();
+        pollRepo.save(poll);
+        optionRepo.saveAll(options);
     }
 }

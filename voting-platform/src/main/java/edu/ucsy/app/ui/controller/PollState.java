@@ -3,6 +3,7 @@ package edu.ucsy.app.ui.controller;
 import edu.ucsy.app.rmi.dto.output.OptionInfo;
 import edu.ucsy.app.server.entities.Poll;
 import edu.ucsy.app.server.service.PollManagementService;
+import edu.ucsy.app.server.service.PollSchedulingService;
 import edu.ucsy.app.server.service.RmiService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -27,6 +28,7 @@ public class PollState {
     private final RmiService rmiService;
     private final MasterLayout masterLayout;
     private final PollManagementService pollService;
+    private final PollSchedulingService pollSchedulingService;
 
     @FXML private Label pollTitleLabel;
     @FXML private Label pollDescriptionLabel;
@@ -72,8 +74,10 @@ public class PollState {
     @FXML
     void closePoll() {
         try {
-            rmiService.cleanUp(MasterLayout.getCurrentPoll().ipAddress());
-            pollService.changeStatus(MasterLayout.getCurrentPoll().id(), Poll.Status.Cancel);
+            var currentPoll = MasterLayout.getCurrentPoll();
+            rmiService.cleanUp(currentPoll.ipAddress());
+            pollService.changeStatus(currentPoll.id(), Poll.Status.Cancel);
+            pollSchedulingService.remove(currentPoll.id());
             MasterLayout.setCurrentPoll(null);
         } catch (MalformedURLException | NotBoundException | RemoteException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

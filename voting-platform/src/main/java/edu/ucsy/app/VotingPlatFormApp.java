@@ -1,6 +1,5 @@
 package edu.ucsy.app;
 
-import edu.ucsy.app.ui.controller.MasterLayout;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,7 +15,7 @@ public class VotingPlatFormApp extends Application {
     private static ConfigurableApplicationContext context;
 
     public static <T> T getBean(Class<T> clz) {
-        if(context == null) {
+        if (context == null) {
             throw new RuntimeException("Spring context is null.");
         }
         return context.getBean(clz);
@@ -24,9 +23,9 @@ public class VotingPlatFormApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
-        FXMLLoader loader = new FXMLLoader(MasterLayout.class.getResource("MasterLayout.fxml"));
-
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/edu/ucsy/app/ui/controller/MasterLayout.fxml")
+        );
         loader.setControllerFactory(context::getBean);
 
         Parent root = loader.load();
@@ -38,13 +37,13 @@ public class VotingPlatFormApp extends Application {
     }
 
     public static void main(String[] args) {
-        context = SpringApplication.run(VotingPlatFormApp.class);
+        context = SpringApplication.run(VotingPlatFormApp.class, args);  // pass args here
         launch(args);
     }
 
     @Override
     public void stop() {
-        if(context != null) {
+        if (context != null) {
             context.close();
         }
     }

@@ -37,7 +37,7 @@
                         <TextField promptText="Option 1" />
                         <TextField promptText="Option 2" />
                     </VBox>
-                    <Button style="-fx-background-color: transparent; -fx-text-fill: #3498db; -fx-cursor: hand;" text="+ Add Option" />
+                    <Button onAction="#handleAddOption" fx:id="addOptionBtn" style="-fx-background-color: transparent; -fx-text-fill: #3498db; -fx-cursor: hand;" text="+ Add Option" />
                 </VBox>
 
                 <Button maxWidth="Infinity" onAction="#handleCreatePoll" styleClass="primary-btn" text="Launch Poll" />

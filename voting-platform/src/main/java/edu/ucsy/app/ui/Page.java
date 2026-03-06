@@ -4,6 +4,6 @@ public enum Page {
     Home, ActivePoll, History;
 
     public String getFxml() {
-        return "%s.fxml".formatted(name());
+        return "/edu/ucsy/app/ui/controller/%s.fxml".formatted(name());
     }
 }

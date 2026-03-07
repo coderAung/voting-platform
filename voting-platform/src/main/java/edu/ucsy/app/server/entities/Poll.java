@@ -2,6 +2,7 @@ package edu.ucsy.app.server.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -41,10 +42,17 @@ public class Poll {
     private List<Option> options;
 
     public enum Status implements Serializable {
-        Active, Fail, Cancel, Finished;
+        Active("status-badge-active"), Fail("status-badge-closed"), Cancel("status-badge-closed"), Finished("status-badge");
 
         @Serial
         private static final long serialVersionUID = 1L;
+
+        @Getter
+        private final String css;
+
+        Status(String css) {
+            this.css = css;
+        }
     }
 
 }

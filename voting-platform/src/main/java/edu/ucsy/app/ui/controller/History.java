@@ -46,12 +46,18 @@ public class History {
         var labelBox = new VBox();
         var title = new Label(pollInfo.title());
         title.getStyleClass().add("poll-title");
+
+        var info = new Label("Ended: %s . Total %s".formatted(pollInfo.endTime().toLocalDate(), pollInfo.total()));
+        info.getStyleClass().add("poll-meta");
+
         labelBox.getChildren().add(title);
+        labelBox.getChildren().add(info);
+        labelBox.setSpacing(4);
         HBox.setHgrow(labelBox, Priority.ALWAYS);
 
         var actionBox = new VBox();
         var status = new Label(pollInfo.status().name());
-        status.getStyleClass().add("status-badge");
+        status.getStyleClass().add(pollInfo.status().getCss());
         actionBox.setSpacing(8);
         actionBox.getChildren().add(status);
 
@@ -76,7 +82,7 @@ public class History {
             var region = new Region();
             HBox.setHgrow(region, Priority.ALWAYS);
             optionBox.getChildren().add(region);
-            optionBox.getChildren().add(new Label("%s".formatted(o.votes())));
+            optionBox.getChildren().add(new Label("%s votes".formatted(o.votes())));
 
             vbox.getChildren().add(optionBox);
         });

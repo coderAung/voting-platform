@@ -5,7 +5,9 @@ import edu.ucsy.app.server.entities.pk.OptionPk;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public record OptionItem(
         String id,
@@ -37,6 +39,6 @@ public record OptionItem(
                 option.getTitle(),
                 option.getVotes().stream()
                         .map(VoteDetail::from)
-                        .toList());
+                        .collect(Collectors.toCollection(ArrayList::new)));
     }
 }

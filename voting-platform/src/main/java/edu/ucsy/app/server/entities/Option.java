@@ -19,6 +19,6 @@ public class Option {
     @JoinColumn(insertable = false, updatable = false)
     private Poll poll;
 
-    @OneToMany(mappedBy = "option")
+    @OneToMany(mappedBy = "option", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vote> votes;
 }

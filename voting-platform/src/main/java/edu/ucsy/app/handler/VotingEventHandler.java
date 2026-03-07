@@ -28,11 +28,13 @@ public class VotingEventHandler {
 
     private final PollState pollState;
     private final ActivePoll activePoll;
+    private final MasterLayout masterLayout;
     private final RmiService rmiService;
     private final PollManagementService pollService;
     private final VoteManagementService voteService;
     private final PollSchedulingService pollSchedulingService;
 
+    @EventListener
     void handle(OnVoteEvent event) {
         try {
             var local = RmiUtils.getLocalIpAddress();
@@ -63,6 +65,9 @@ public class VotingEventHandler {
             voteService.bulkCreate(poll.options());
             MasterLayout.setCurrentPoll(null);
             rmiService.cleanUp(ipAddress);
+
+            Platform.runLater(masterLayout::showHistory);
+
         } catch (UnknownHostException | MalformedURLException | NotBoundException | RemoteException e) {
             throw new RuntimeException(e);
         }

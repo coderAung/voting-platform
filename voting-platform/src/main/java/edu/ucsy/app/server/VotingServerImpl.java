@@ -50,15 +50,7 @@ public class VotingServerImpl extends UnicastRemoteObject implements VotingServe
 
     private void checkLimit() throws RemoteException {
         if(poll.limit() != null && poll.limit().equals(voters.size())) {
-            var event = new PollEndEvent(poll);
-            host.votingService().onPollEnd(event);
-            voters.forEach(v -> {
-                try {
-                    v.votingService().onPollEnd(event);
-                } catch (RemoteException e) {
-                    System.out.println("Connection error with voter.");
-                }
-            });
+            endPoll();
         }
     }
 
@@ -81,5 +73,18 @@ public class VotingServerImpl extends UnicastRemoteObject implements VotingServe
     @Override
     public PollInfo getPollInfo() throws RemoteException {
         return new PollInfo(poll);
+    }
+
+    @Override
+    public void endPoll() throws RemoteException {
+        var event = new PollEndEvent(poll);
+        host.votingService().onPollEnd(event);
+        voters.forEach(v -> {
+            try {
+                v.votingService().onPollEnd(event);
+            } catch (RemoteException e) {
+                System.out.println("Connection error with voter.");
+            }
+        });
     }
 }

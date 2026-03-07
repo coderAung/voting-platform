@@ -11,4 +11,7 @@ public interface VotingServer extends Remote {
     void vote(VoteForm form) throws RemoteException;
 
     PollInfo getPollInfo() throws RemoteException;
+
+    void endPoll() throws RemoteException;
+
 }

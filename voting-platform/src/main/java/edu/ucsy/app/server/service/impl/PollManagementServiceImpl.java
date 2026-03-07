@@ -81,6 +81,7 @@ public class PollManagementServiceImpl implements PollManagementService {
     @Transactional
     public void create(PollDetail detail, boolean isOwner) {
         var poll = detail.getEntity(isOwner);
+        poll.setStatus(Poll.Status.Finished);
         var options = detail.options().stream().map(OptionItem::getEntity).toList();
         pollRepo.save(poll);
         optionRepo.saveAll(options);

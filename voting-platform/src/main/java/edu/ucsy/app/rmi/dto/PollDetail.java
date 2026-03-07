@@ -55,7 +55,6 @@ public record PollDetail(
 
     public Poll getEntity(boolean isOwner) {
         var poll = new Poll();
-        poll.setId(id);
         poll.setTitle(title);
         poll.setCreatedAt(createdAt);
         poll.setEndTime(endTime);

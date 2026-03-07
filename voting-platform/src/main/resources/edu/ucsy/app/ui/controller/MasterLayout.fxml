@@ -2,34 +2,21 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ucsy.app.ui.controller.MasterLayout">
+<VBox stylesheets="@css/application.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ucsy.app.ui.controller.MasterLayout">
    <children>
-      <BorderPane fx:id="mainPane" stylesheets="@css/application.css">
-      
-          <!-- TOP NAVBAR -->
-          <top>
-              <HBox styleClass="navbar">
-                  <Label styleClass="nav-title" text="VOTING SYSTEM" />
-      
-                  <HBox alignment="CENTER_RIGHT" spacing="10" HBox.hgrow="ALWAYS">
-                      <Button fx:id="homeBtn" onAction="#showHome" styleClass="nav-btn" text="Home" />
-      <!--                <Button text="Active Poll" fx:id="activePollBtn" onAction="#showActivePoll" styleClass="nav-btn"/>-->
-                      <Button fx:id="historyBtn" onAction="#showHistory" styleClass="nav-btn" text="History" />
-                  </HBox>
-              </HBox>
-          </top>
-      
-          <!-- CONTENT -->
-          <center>
-              <StackPane fx:id="contentArea" styleClass="content-area" />
-          </center>
-      
-      </BorderPane>
+        <HBox styleClass="navbar">
+            <Label styleClass="nav-title" text="VOTING SYSTEM" />
+
+                                    <HBox alignment="CENTER_RIGHT" spacing="10" HBox.hgrow="ALWAYS">
+                <Button fx:id="homeBtn" onAction="#showHome" styleClass="nav-btn" text="Home" />
+<!--                <Button text="Active Poll" fx:id="activePollBtn" onAction="#showActivePoll" styleClass="nav-btn"/>-->
+                <Button fx:id="historyBtn" onAction="#showHistory" styleClass="nav-btn" text="History" />
+            </HBox>
+        </HBox>
+        <StackPane fx:id="contentArea" styleClass="content-area" />
    </children>
 </VBox>

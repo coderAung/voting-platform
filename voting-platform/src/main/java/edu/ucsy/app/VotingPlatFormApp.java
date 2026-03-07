@@ -38,7 +38,7 @@ public class VotingPlatFormApp extends Application {
 
         Parent root = loader.load();
 
-        Scene scene = new Scene(root, 1024, 768);
+        Scene scene = new Scene(root);
         stage.setScene(scene);
 
         var pollService = context.getBean(PollManagementService.class);

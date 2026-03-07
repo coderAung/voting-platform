@@ -7,6 +7,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public record OptionItem(
@@ -26,9 +27,9 @@ public record OptionItem(
         voters.add(vote);
     }
 
-    public Option getEntity() {
+    public Option getEntity(UUID pollId) {
         var option = new Option();
-        option.setId(OptionPk.from(id));
+        option.setId(new OptionPk(pollId, OptionPk.from(this.id).getSequenceNo()));
         option.setTitle(title);
         return option;
     }

@@ -83,7 +83,7 @@ public class PollManagementServiceImpl implements PollManagementService {
         var poll = detail.getEntity(isOwner);
         poll.setStatus(Poll.Status.Finished);
         poll.setIpAddress(detail.ipAddress());
-        var options = detail.options().stream().map(OptionItem::getEntity).toList();
+        var options = detail.options().stream().map(o -> o.getEntity(poll.getId())).toList();
         pollRepo.save(poll);
         optionRepo.saveAll(options);
     }

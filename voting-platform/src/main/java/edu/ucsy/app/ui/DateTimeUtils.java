@@ -8,11 +8,11 @@ public abstract class DateTimeUtils {
     private static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("HH:mm:ss");
     private static final DateTimeFormatter DF = DateTimeFormatter.ofPattern("dd-MM-yy");
 
-    public static String format(LocalTime time) {
+    public static String formatTime(LocalDateTime time) {
         return time.format(DTF);
     }
 
-    public static String format(LocalDateTime dateTime) {
+    public static String formatDate(LocalDateTime dateTime) {
         if(dateTime == null) {
             return "";
         }

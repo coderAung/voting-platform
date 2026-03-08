@@ -48,7 +48,7 @@ public class History {
         var title = new Label(pollInfo.title());
         title.getStyleClass().add("poll-title");
 
-        var info = new Label("Ended: %s . Total %s ~ (%s)".formatted(DateTimeUtils.format(pollInfo.endTime()), pollInfo.total(), pollInfo.isOwner() ? "Hosted" : "Joined"));
+        var info = new Label("Ended: %s . Total %s ~ (%s)".formatted(DateTimeUtils.formatDate(pollInfo.endTime()), pollInfo.total(), pollInfo.isOwner() ? "Hosted" : "Joined"));
         info.getStyleClass().add("poll-meta");
 
         labelBox.getChildren().add(title);

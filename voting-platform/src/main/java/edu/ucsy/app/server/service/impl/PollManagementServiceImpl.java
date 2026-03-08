@@ -5,9 +5,12 @@ import edu.ucsy.app.rmi.dto.PollDetail;
 import edu.ucsy.app.rmi.dto.PollForm;
 import edu.ucsy.app.server.entities.Option;
 import edu.ucsy.app.server.entities.Poll;
+import edu.ucsy.app.server.entities.Vote;
 import edu.ucsy.app.server.entities.pk.OptionPk;
+import edu.ucsy.app.server.entities.pk.VotePk;
 import edu.ucsy.app.server.repo.OptionRepo;
 import edu.ucsy.app.server.repo.PollRepo;
+import edu.ucsy.app.server.repo.VoteRepo;
 import edu.ucsy.app.server.service.PollManagementService;
 import edu.ucsy.app.utils.exception.VotingPlatformBusinessException;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PollManagementServiceImpl implements PollManagementService {
 
+    private final VoteRepo voteRepo;
     private final PollRepo pollRepo;
     private final OptionRepo optionRepo;
 
@@ -84,8 +88,29 @@ public class PollManagementServiceImpl implements PollManagementService {
         poll.setStatus(Poll.Status.Finished);
         poll.setIpAddress(detail.ipAddress());
         pollRepo.save(poll);
-        var options = detail.options().stream().map(o -> o.getEntity(poll.getId())).toList();
-        optionRepo.saveAll(options);
+
+        var optionItems = detail.options().stream().map(o -> o.cloneWithNewPollId(poll.getId())).toList();
+        var options = optionRepo.saveAll(optionItems.stream().map(OptionItem::getEntity).toList());
+
+        var votes = new ArrayList<Vote>();
+        for(var item : optionItems) {
+            var option = options.stream().filter(o -> o.getId().toId().equals(item.id())).findFirst().orElseThrow();
+
+            var list = item.voters().stream().map(v -> {
+                var id = new VotePk();
+                id.setOptionId(OptionPk.from(v.optionId()));
+                id.setIpAddress(v.ipAddress());
+
+                var vote = new Vote();
+                vote.setId(id);
+                vote.setVotedAt(LocalDateTime.now());
+                vote.setPoll(poll);
+                vote.setOption(option);
+                return vote;
+            }).toList();
+            votes.addAll(list);
+        }
+        voteRepo.saveAll(votes);
     }
 
     @Override

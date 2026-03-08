@@ -61,10 +61,10 @@ public class VotingEventHandler {
                 pollService.create(poll, false);
             } else {
                 pollService.changeStatus(poll.id(), Poll.Status.Finished);
+                voteService.bulkCreate(poll);
+                MasterLayout.setCurrentPoll(null);
+                rmiService.cleanUp(ipAddress);
             }
-            voteService.bulkCreate(poll);
-            MasterLayout.setCurrentPoll(null);
-            rmiService.cleanUp(ipAddress);
 
             Platform.runLater(masterLayout::showHistory);
 

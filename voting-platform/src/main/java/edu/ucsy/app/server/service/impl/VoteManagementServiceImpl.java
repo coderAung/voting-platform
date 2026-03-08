@@ -1,6 +1,5 @@
 package edu.ucsy.app.server.service.impl;
 
-import edu.ucsy.app.rmi.dto.OptionItem;
 import edu.ucsy.app.rmi.dto.PollDetail;
 import edu.ucsy.app.server.entities.Vote;
 import edu.ucsy.app.server.entities.pk.OptionPk;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

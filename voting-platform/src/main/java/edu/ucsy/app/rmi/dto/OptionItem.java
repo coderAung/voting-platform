@@ -27,9 +27,9 @@ public record OptionItem(
         voters.add(vote);
     }
 
-    public Option getEntity(UUID pollId) {
+    public Option getEntity() {
         var option = new Option();
-        option.setId(new OptionPk(pollId, OptionPk.from(this.id).getSequenceNo()));
+        option.setId(OptionPk.from(id));
         option.setTitle(title);
         return option;
     }
@@ -41,5 +41,13 @@ public record OptionItem(
                 option.getVotes().stream()
                         .map(VoteDetail::from)
                         .collect(Collectors.toCollection(ArrayList::new)));
+    }
+
+    public OptionItem cloneWithNewPollId(UUID pollId) {
+        var optionId = new OptionPk(pollId, OptionPk.from(id).getSequenceNo()).toId();
+        return new OptionItem(
+                optionId, title, voters.stream().map(v -> new VoteDetail(
+                        optionId, v.ipAddress(), v.votedAt()))
+                .toList());
     }
 }

@@ -43,7 +43,7 @@ public class PollState {
         var currentPoll = MasterLayout.getCurrentPoll();
         ipAddressLabel.setText(currentPoll.ipAddress());
         if(currentPoll.endTime() != null) {
-            voteEndTimeLabel.setText("Vote ends at : %s".formatted(DateTimeUtils.formatTime(currentPoll.endTime().toLocalTime())));
+            voteEndTimeLabel.setText("Vote ends at : %s".formatted(DateTimeUtils.format(currentPoll.endTime().toLocalTime())));
         }
 
         pollTitleLabel.setText(currentPoll.title());

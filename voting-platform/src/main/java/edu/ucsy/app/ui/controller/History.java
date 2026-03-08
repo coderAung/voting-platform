@@ -3,6 +3,7 @@ package edu.ucsy.app.ui.controller;
 import edu.ucsy.app.rmi.dto.output.PollInfo;
 import edu.ucsy.app.server.entities.Poll;
 import edu.ucsy.app.server.service.PollManagementService;
+import edu.ucsy.app.ui.DateTimeUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -47,7 +48,7 @@ public class History {
         var title = new Label(pollInfo.title());
         title.getStyleClass().add("poll-title");
 
-        var info = new Label("Ended: %s . Total %s ~ (%s)".formatted(pollInfo.endTime().toLocalDate(), pollInfo.total(), pollInfo.isOwner() ? "Hosted" : "Joined"));
+        var info = new Label("Ended: %s . Total %s ~ (%s)".formatted(DateTimeUtils.format(pollInfo.endTime()), pollInfo.total(), pollInfo.isOwner() ? "Hosted" : "Joined"));
         info.getStyleClass().add("poll-meta");
 
         labelBox.getChildren().add(title);

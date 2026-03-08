@@ -49,7 +49,7 @@ public class VotingServerImpl extends UnicastRemoteObject implements VotingServe
     }
 
     private void checkLimit() throws RemoteException {
-        if(poll.limit() != null && poll.limit().equals(voters.size())) {
+        if(poll.limit() != null && poll.limit() == voters.size()) {
             endPoll();
         }
     }

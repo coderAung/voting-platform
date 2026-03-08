@@ -9,14 +9,18 @@ public abstract class DateTimeUtils {
     private static final DateTimeFormatter DF = DateTimeFormatter.ofPattern("dd-MM-yy");
 
     public static String formatTime(LocalDateTime time) {
-        return time.format(DTF);
+        return format(time, DTF);
     }
 
     public static String formatDate(LocalDateTime dateTime) {
+        return format(dateTime, DF);
+    }
+
+    private static String format(LocalDateTime dateTime, DateTimeFormatter formatter) {
         if(dateTime == null) {
             return "";
         }
-        return dateTime.format(DF);
+        return dateTime.format(formatter);
     }
 
 }

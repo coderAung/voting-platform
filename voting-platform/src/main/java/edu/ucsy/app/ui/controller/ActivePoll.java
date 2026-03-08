@@ -39,9 +39,7 @@ public class ActivePoll {
 
         var currentPoll = server.getPollInfo(RmiUtils.getLocalIpAddress());
         ipAddressLabel.setText(currentPoll.ipAddress());
-        if(currentPoll.endTime() != null) {
-            voteEndTimeLabel.setText("%s : %s".formatted("Vote ends at", DateTimeUtils.format(currentPoll.endTime().toLocalTime())));
-        }
+        voteEndTimeLabel.setText("Vote ends at : %s%nVote limit : %d".formatted(DateTimeUtils.format(currentPoll.endTime().toLocalTime()), currentPoll.limit() == null ? 0 : currentPoll.limit()));
 
         pollTitleLabel.setText(currentPoll.title());
         pollDescriptionLabel.setText("Total options: " + currentPoll.options().size());

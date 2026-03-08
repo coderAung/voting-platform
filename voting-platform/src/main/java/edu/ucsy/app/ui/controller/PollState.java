@@ -42,9 +42,7 @@ public class PollState {
     public void initialize() {
         var currentPoll = MasterLayout.getCurrentPoll();
         ipAddressLabel.setText(currentPoll.ipAddress());
-        if(currentPoll.endTime() != null) {
-            voteEndTimeLabel.setText("Vote ends at : %s".formatted(DateTimeUtils.format(currentPoll.endTime().toLocalTime())));
-        }
+        voteEndTimeLabel.setText("Vote ends at : %s%nVote limits : %d".formatted(DateTimeUtils.format(currentPoll.endTime().toLocalTime()), currentPoll.limit() == null ? 0 : currentPoll.limit()));
 
         pollTitleLabel.setText(currentPoll.title());
         pollDescriptionLabel.setText("Total options: " + currentPoll.options().size());
@@ -80,6 +78,9 @@ public class PollState {
             pollService.changeStatus(currentPoll.id(), Poll.Status.Cancel);
             pollSchedulingService.remove(currentPoll.id());
             MasterLayout.setCurrentPoll(null);
+            if(currentPoll.limit() == currentPoll.total()) {
+                rmiService.findServer(currentPoll.ipAddress()).endPoll();
+            }
         } catch (MalformedURLException | NotBoundException | RemoteException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);

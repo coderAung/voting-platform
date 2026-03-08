@@ -68,7 +68,7 @@ public class PollManagementServiceImpl implements PollManagementService {
     @Override
     @Transactional(readOnly = true)
     public List<PollDetail> getAll() {
-        return pollRepo.findAll().stream().map(PollDetail::from).toList();
+        return pollRepo.findAllByOrderByEndTimeDesc().stream().map(PollDetail::from).toList();
     }
 
     @Override

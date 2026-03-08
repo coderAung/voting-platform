@@ -4,6 +4,7 @@ import edu.ucsy.app.rmi.VotingServer;
 import edu.ucsy.app.rmi.VotingService;
 import edu.ucsy.app.rmi.dto.VoteForm;
 import edu.ucsy.app.rmi.dto.output.PollInfo;
+import edu.ucsy.app.ui.DateTimeUtils;
 import edu.ucsy.app.utils.RmiUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -39,7 +40,7 @@ public class ActivePoll {
         var currentPoll = server.getPollInfo();
         ipAddressLabel.setText(currentPoll.ipAddress());
         if(currentPoll.endTime() != null) {
-            voteEndTimeLabel.setText("%s : %s".formatted("Vote ends at", currentPoll.endTime().toLocalTime()));
+            voteEndTimeLabel.setText("%s : %s".formatted("Vote ends at", DateTimeUtils.formatTime(currentPoll.endTime().toLocalTime())));
         }
 
         pollTitleLabel.setText(currentPoll.title());

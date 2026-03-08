@@ -5,6 +5,7 @@ import edu.ucsy.app.server.entities.Poll;
 import edu.ucsy.app.server.service.PollManagementService;
 import edu.ucsy.app.server.service.PollSchedulingService;
 import edu.ucsy.app.server.service.RmiService;
+import edu.ucsy.app.ui.DateTimeUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -42,7 +43,7 @@ public class PollState {
         var currentPoll = MasterLayout.getCurrentPoll();
         ipAddressLabel.setText(currentPoll.ipAddress());
         if(currentPoll.endTime() != null) {
-            voteEndTimeLabel.setText("%s : %s".formatted("Vote ends at", currentPoll.endTime()));
+            voteEndTimeLabel.setText("Vote ends at : %s".formatted(DateTimeUtils.formatTime(currentPoll.endTime().toLocalTime())));
         }
 
         pollTitleLabel.setText(currentPoll.title());

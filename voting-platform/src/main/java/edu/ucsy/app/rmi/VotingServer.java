@@ -14,4 +14,5 @@ public interface VotingServer extends Remote {
 
     void endPoll() throws RemoteException;
 
+    void cancelPoll() throws RemoteException;
 }

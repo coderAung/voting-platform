@@ -42,7 +42,7 @@ public class PollState {
     public void initialize() {
         var currentPoll = MasterLayout.getCurrentPoll();
         ipAddressLabel.setText(currentPoll.ipAddress());
-        voteEndTimeLabel.setText("Vote ends at : %s%nVote limits : %d".formatted(DateTimeUtils.formatTime(currentPoll.endTime()), currentPoll.limit() == null ? 0 : currentPoll.limit()));
+        voteEndTimeLabel.setText("Vote ends at : %s%nVote limits : %s".formatted(DateTimeUtils.formatTime(currentPoll.endTime()), currentPoll.limit() == null ? "" : currentPoll.limit()));
 
         pollTitleLabel.setText(currentPoll.title());
         pollDescriptionLabel.setText("Total options: " + currentPoll.options().size());
@@ -74,19 +74,18 @@ public class PollState {
     void closePoll() {
         try {
             var currentPoll = MasterLayout.getCurrentPoll();
-            rmiService.cleanUp(currentPoll.ipAddress());
             pollService.changeStatus(currentPoll.id(), Poll.Status.Cancel);
             pollSchedulingService.remove(currentPoll.id());
             MasterLayout.setCurrentPoll(null);
-            if(currentPoll.limit() == currentPoll.total()) {
+            if(currentPoll.limit() != null && currentPoll.limit() == currentPoll.total()) {
                 rmiService.findServer(currentPoll.ipAddress()).endPoll();
+            } else {
+               rmiService.findServer(currentPoll.ipAddress()).cancelPoll();
             }
-        } catch (MalformedURLException | NotBoundException | RemoteException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            rmiService.cleanUp(currentPoll.ipAddress());
 
+        } catch (MalformedURLException | NotBoundException | RemoteException e) {
+            throw new RuntimeException(e);
         }
         masterLayout.showHome();
     }

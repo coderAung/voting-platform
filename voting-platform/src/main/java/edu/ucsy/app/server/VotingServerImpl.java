@@ -4,6 +4,7 @@ import edu.ucsy.app.rmi.VotingServer;
 import edu.ucsy.app.rmi.dto.*;
 import edu.ucsy.app.rmi.dto.output.PollInfo;
 import edu.ucsy.app.rmi.event.OnVoteEvent;
+import edu.ucsy.app.rmi.event.PollCancelEvent;
 import edu.ucsy.app.rmi.event.PollEndEvent;
 import edu.ucsy.app.utils.exception.VotingPlatformBusinessException;
 
@@ -84,6 +85,19 @@ public class VotingServerImpl extends UnicastRemoteObject implements VotingServe
                 v.votingService().onPollEnd(event);
             } catch (RemoteException e) {
                 System.out.println("Connection error with voter.");
+            }
+        });
+    }
+
+    @Override
+    public void cancelPoll() throws RemoteException {
+        var event = new PollCancelEvent(poll.id(), poll.ipAddress());
+        host.votingService().onPollCancel(event);
+        voters.forEach(v -> {
+            try {
+                v.votingService().onPollCancel(event);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
             }
         });
     }

@@ -2,6 +2,7 @@ package edu.ucsy.app.server;
 
 import edu.ucsy.app.rmi.VotingService;
 import edu.ucsy.app.rmi.event.OnVoteEvent;
+import edu.ucsy.app.rmi.event.PollCancelEvent;
 import edu.ucsy.app.rmi.event.PollEndEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,11 @@ public class VotingServiceImpl extends UnicastRemoteObject implements VotingServ
 
     @Override
     public void onPollEnd(PollEndEvent event) throws RemoteException {
+        publisher.publishEvent(event);
+    }
+
+    @Override
+    public void onPollCancel(PollCancelEvent event) throws RemoteException {
         publisher.publishEvent(event);
     }
 }

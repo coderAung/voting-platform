@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static edu.ucsy.app.ui.AlertUtils.showAlert;
+
 @Component
 @RequiredArgsConstructor
 public class Home {
@@ -100,6 +102,7 @@ public class Home {
     public void handleAddOption() {
         addOptionRow();
     }
+
     @FXML
     public void handleCreatePoll() {
         if (newPollTitle.getText().isBlank()) {
@@ -135,7 +138,7 @@ public class Home {
                     newPollTitle.getText(),
                     ipAddress,
                     endTime.getValue() == null ? null : LocalDateTime.now().plusMinutes(endTime.getValue()),
-                    StringUtils.hasLength(voteLimit.getText()) || voteLimit.getText().isEmpty() ? null : Integer.parseInt(voteLimit.getText()),
+                    voteLimit.getText().isEmpty() ? null : Integer.parseInt(voteLimit.getText()),
                     options
             );
             UUID pollId = pollService.create(form);
@@ -176,12 +179,5 @@ public class Home {
             showAlert(Alert.AlertType.ERROR, "Something went wrong.");
         }
 
-    }
-
-    private void showAlert(Alert.AlertType type, String msg) {
-        Alert alert = new Alert(type);
-        alert.setHeaderText(null);
-        alert.setContentText(msg);
-        alert.showAndWait();
     }
 }

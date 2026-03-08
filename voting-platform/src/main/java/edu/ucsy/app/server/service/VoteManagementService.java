@@ -1,10 +1,9 @@
 package edu.ucsy.app.server.service;
 
-import edu.ucsy.app.rmi.dto.VoteForm;
+import edu.ucsy.app.rmi.dto.PollDetail;
 
-public class VoteManagementService {
+public interface VoteManagementService {
 
-    public void create(VoteForm form) {
+    void bulkCreate(PollDetail pollDetail);
 
-    }
 }

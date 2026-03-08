@@ -2,26 +2,22 @@ package edu.ucsy.app.server.service;
 
 import edu.ucsy.app.rmi.dto.PollDetail;
 import edu.ucsy.app.rmi.dto.PollForm;
+import edu.ucsy.app.server.entities.Poll;
 
 import java.util.List;
 import java.util.UUID;
 
-public class PollManagementService {
+public interface PollManagementService {
 
-    public UUID create(PollForm form) {
-        return null;
-    }
+    UUID create(PollForm form);
 
-    public PollDetail findById(UUID id) {
-        return null;
-    }
+    PollDetail findById(UUID id);
 
-    public List<PollDetail> getAll() {
-        return null;
-    }
+    List<PollDetail> getAll();
 
-    public void delete(UUID id) {
+    void delete(UUID id);
 
-    }
+    void create(PollDetail detail, boolean isOwner);
 
+    void changeStatus(UUID id, Poll.Status status);
 }

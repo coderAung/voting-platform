@@ -4,16 +4,11 @@ import edu.ucsy.app.rmi.VotingService;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.UUID;
 
-public record VoteForm(
-    UUID pollId,
-    String optionId,
-    String ipAddress,
-    VotingService votingService
+public record Host(
+        String ipAddress,
+        VotingService votingService
 ) implements Serializable {
-
     @Serial
     private static final long serialVersionUID = 1L;
-
 }

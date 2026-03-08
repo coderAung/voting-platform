@@ -1,6 +1,7 @@
 package edu.ucsy.app.rmi;
 
 import edu.ucsy.app.rmi.event.OnVoteEvent;
+import edu.ucsy.app.rmi.event.PollCancelEvent;
 import edu.ucsy.app.rmi.event.PollEndEvent;
 
 import java.rmi.Remote;
@@ -11,4 +12,6 @@ public interface VotingService extends Remote {
     void onVote(OnVoteEvent event) throws RemoteException;
 
     void onPollEnd(PollEndEvent event) throws RemoteException;
+
+    void onPollCancel(PollCancelEvent event) throws RemoteException;
 }

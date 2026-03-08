@@ -1,0 +1,122 @@
+package edu.ucsy.app.server.service.impl;
+
+import edu.ucsy.app.rmi.dto.OptionItem;
+import edu.ucsy.app.rmi.dto.PollDetail;
+import edu.ucsy.app.rmi.dto.PollForm;
+import edu.ucsy.app.server.entities.Option;
+import edu.ucsy.app.server.entities.Poll;
+import edu.ucsy.app.server.entities.Vote;
+import edu.ucsy.app.server.entities.pk.OptionPk;
+import edu.ucsy.app.server.entities.pk.VotePk;
+import edu.ucsy.app.server.repo.OptionRepo;
+import edu.ucsy.app.server.repo.PollRepo;
+import edu.ucsy.app.server.repo.VoteRepo;
+import edu.ucsy.app.server.service.PollManagementService;
+import edu.ucsy.app.utils.exception.VotingPlatformBusinessException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+public class PollManagementServiceImpl implements PollManagementService {
+
+    private final VoteRepo voteRepo;
+    private final PollRepo pollRepo;
+    private final OptionRepo optionRepo;
+
+    @Override
+    @Transactional
+    public UUID create(PollForm form) {
+        var seq = 1;
+        var poll = new Poll();
+        poll.setTitle(form.title());
+        poll.setIpAddress(form.ipAddress());
+        poll.setEndTime(form.endTime());
+        poll.setVoteLimit(form.voteLimit());
+        poll.setStatus(Poll.Status.Active);
+        poll.setCreatedAt(LocalDateTime.now());
+        poll.setIsOwner(true);
+
+        poll = pollRepo.save(poll);
+
+        var options = new ArrayList<Option>();
+        for (var item : form.options()) {
+            var option = new Option();
+            option.setId(new OptionPk(poll.getId(), seq));
+            option.setTitle(item);
+            options.add(option);
+            seq ++;
+        }
+        optionRepo.saveAll(options);
+
+        return poll.getId();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PollDetail findById(UUID id) {
+        return pollRepo.findById(id).map(PollDetail::from)
+                .orElseThrow(() -> new VotingPlatformBusinessException("Poll with id : %s is not found.".formatted(id)));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PollDetail> getAll() {
+        return pollRepo.findAllByOrderByEndTimeDesc().stream().map(PollDetail::from).toList();
+    }
+
+    @Override
+    @Transactional
+    public void delete(UUID id) {
+        var poll = pollRepo.findById(id).orElseThrow(() -> new VotingPlatformBusinessException("Poll with id : %s is not found.".formatted(id)));
+        if(poll.getStatus().equals(Poll.Status.Active)) {
+            throw new VotingPlatformBusinessException("Active poll cannot be deleted.");
+        }
+        pollRepo.delete(poll);
+    }
+
+    @Override
+    @Transactional
+    public void create(PollDetail detail, boolean isOwner) {
+        var poll = detail.getEntity(isOwner);
+        poll.setStatus(Poll.Status.Finished);
+        poll.setIpAddress(detail.ipAddress());
+        pollRepo.save(poll);
+
+        var optionItems = detail.options().stream().map(o -> o.cloneWithNewPollId(poll.getId())).toList();
+        var options = optionRepo.saveAll(optionItems.stream().map(OptionItem::getEntity).toList());
+
+        var votes = new ArrayList<Vote>();
+        for(var item : optionItems) {
+            var option = options.stream().filter(o -> o.getId().toId().equals(item.id())).findFirst().orElseThrow();
+
+            var list = item.voters().stream().map(v -> {
+                var id = new VotePk();
+                id.setOptionId(OptionPk.from(v.optionId()));
+                id.setIpAddress(v.ipAddress());
+
+                var vote = new Vote();
+                vote.setId(id);
+                vote.setVotedAt(LocalDateTime.now());
+                vote.setPoll(poll);
+                vote.setOption(option);
+                return vote;
+            }).toList();
+            votes.addAll(list);
+        }
+        voteRepo.saveAll(votes);
+    }
+
+    @Override
+    public void changeStatus(UUID id, Poll.Status status) {
+        var poll = pollRepo.findById(id).orElseThrow(() -> new VotingPlatformBusinessException("Poll with id : %s is not found.".formatted(id)));
+        poll.setStatus(status);
+        pollRepo.save(poll);
+    }
+}

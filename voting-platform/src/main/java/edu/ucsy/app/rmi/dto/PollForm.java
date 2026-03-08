@@ -7,6 +7,7 @@ import java.util.List;
 
 public record PollForm(
         String title,
+        String ipAddress,
         LocalDateTime endTime,
         Integer voteLimit,
         List<String> options

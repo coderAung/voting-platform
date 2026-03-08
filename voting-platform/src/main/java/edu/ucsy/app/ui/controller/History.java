@@ -47,7 +47,7 @@ public class History {
         var title = new Label(pollInfo.title());
         title.getStyleClass().add("poll-title");
 
-        var info = new Label("Ended: %s . Total %s".formatted(pollInfo.endTime().toLocalDate(), pollInfo.total()));
+        var info = new Label("Ended: %s . Total %s ~ (%s)".formatted(pollInfo.endTime().toLocalDate(), pollInfo.total(), pollInfo.isOwner() ? "Hosted" : "Joined"));
         info.getStyleClass().add("poll-meta");
 
         labelBox.getChildren().add(title);
@@ -77,7 +77,9 @@ public class History {
         pollInfo.options().forEach(o -> {
             var optionBox = new HBox();
             optionBox.getStyleClass().add("option-row");
-            optionBox.getStyleClass().add(pollInfo.winner().id().equals(o.id()) ? "winner" : "");
+            if(pollInfo.total() > 0 && pollInfo.winner().id().equals(o.id())) {
+                optionBox.getStyleClass().add("winner");
+            }
             optionBox.getChildren().add(new Label(o.title()));
             var region = new Region();
             HBox.setHgrow(region, Priority.ALWAYS);

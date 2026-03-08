@@ -35,9 +35,9 @@ public class ActivePoll {
 
     private final ToggleGroup voteGroup = new ToggleGroup();
 
-    public void joinPoll(VotingServer server) throws RemoteException {
+    public void joinPoll(VotingServer server) throws RemoteException, UnknownHostException {
 
-        var currentPoll = server.getPollInfo();
+        var currentPoll = server.getPollInfo(RmiUtils.getLocalIpAddress());
         ipAddressLabel.setText(currentPoll.ipAddress());
         if(currentPoll.endTime() != null) {
             voteEndTimeLabel.setText("%s : %s".formatted("Vote ends at", DateTimeUtils.formatTime(currentPoll.endTime().toLocalTime())));
@@ -61,25 +61,26 @@ public class ActivePoll {
             box.getChildren().add(new Label("%s".formatted(option.votes())));
             optionsContainer.getChildren().add(box);
         });
-
-        submitBtn.setOnAction(ev -> {
-            try {
-                handleVoteSubmit(currentPoll, server);
-            } catch (RemoteException | UnknownHostException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        submitBtn.setDisable(currentPoll.isVoted());
+        if(!currentPoll.isVoted()) {
+            submitBtn.setOnAction(ev -> handleVoteSubmit(currentPoll, server));
+        }
     }
 
-    private void handleVoteSubmit(PollInfo poll, VotingServer server) throws RemoteException, UnknownHostException {
+    private void handleVoteSubmit(PollInfo poll, VotingServer server) {
         if (voteGroup.getSelectedToggle() == null) {
             System.out.println("No option selected!");
             return;
         }
         ToggleButton selected = (ToggleButton) voteGroup.getSelectedToggle();
         String optionId = (String) selected.getUserData();
-        var form = new VoteForm(poll.id(), optionId, RmiUtils.getLocalIpAddress(), votingService);
-        server.vote(form);
+        try {
+            var form = new VoteForm(poll.id(), optionId, RmiUtils.getLocalIpAddress(), votingService);
+            server.vote(form);
+            submitBtn.setDisable(true);
+        } catch (RemoteException | UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void refresh(String optionId, int votes) {

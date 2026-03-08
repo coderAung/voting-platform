@@ -16,6 +16,7 @@ public record PollDetail(
         LocalDateTime endTime,
         Integer limit,
         Poll.Status status,
+        boolean isOwner,
         List<OptionItem> options
 ) implements Serializable {
 
@@ -31,6 +32,7 @@ public record PollDetail(
                 poll.getEndTime(),
                 poll.getVoteLimit(),
                 poll.getStatus(),
+                poll.getIsOwner() != null && poll.getIsOwner(),
                 poll.getOptions().stream().map(OptionItem::from).toList()
         );
     }

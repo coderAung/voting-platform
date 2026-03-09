@@ -37,10 +37,10 @@ public class VotingServerImpl extends UnicastRemoteObject implements VotingServe
                 poll.getVotesByOptionId(form.optionId()));
 
         host.votingService().onVote(event);
+        voters.stream().filter(v -> v.ipAddress().equals(form.ipAddress())).findFirst().ifPresent(Voter::voted);
 
         voters.forEach(v -> {
             try {
-                v.voted();
                 v.votingService().onVote(event);
             } catch (RemoteException e) {
                 System.out.println("Connection error with voter.");

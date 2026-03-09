@@ -73,8 +73,9 @@ public class VotingServerImpl extends UnicastRemoteObject implements VotingServe
 
     @Override
     public PollInfo getPollInfo(String ipAddress, VotingService votingService) throws RemoteException {
+        var info =  new PollInfo(poll, voters.stream().anyMatch(v -> v.ipAddress().equals(ipAddress)));
         voters.add(new Voter(ipAddress, votingService));
-        return new PollInfo(poll, voters.stream().anyMatch(v -> v.ipAddress().equals(ipAddress)));
+        return info;
     }
 
     @Override

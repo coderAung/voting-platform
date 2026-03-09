@@ -40,6 +40,7 @@ public class VotingServerImpl extends UnicastRemoteObject implements VotingServe
 
         voters.forEach(v -> {
             try {
+                v.voted();
                 v.votingService().onVote(event);
             } catch (RemoteException e) {
                 System.out.println("Connection error with voter.");
@@ -73,9 +74,11 @@ public class VotingServerImpl extends UnicastRemoteObject implements VotingServe
 
     @Override
     public PollInfo getPollInfo(String ipAddress, VotingService votingService) throws RemoteException {
-        var info =  new PollInfo(poll, voters.stream().anyMatch(v -> v.ipAddress().equals(ipAddress)));
-        voters.add(new Voter(ipAddress, votingService));
-        return info;
+        var voter = new Voter(ipAddress, votingService);
+        if(voters.stream().noneMatch(v -> v.ipAddress().equals(ipAddress))) {
+            voters.add(voter);
+        }
+        return new PollInfo(poll, voter.isVoted());
     }
 
     @Override

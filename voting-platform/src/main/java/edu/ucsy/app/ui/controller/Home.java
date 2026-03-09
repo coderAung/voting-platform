@@ -172,10 +172,10 @@ public class Home {
                 return;
             }
             var server = rmiService.findServer(ipAddress);
-            masterLayout.showPage(ActivePoll.class, Page.ActivePoll);
-
             activePoll.joinPoll(server);
+            masterLayout.showPage(ActivePoll.class, Page.ActivePoll);
         } catch (MalformedURLException | NotBoundException | RemoteException | UnknownHostException e) {
+            masterLayout.showHome();
             showAlert(Alert.AlertType.ERROR, "Something went wrong.");
         }
 

@@ -1,7 +1,5 @@
 package edu.ucsy.app.rmi.dto;
 
-import edu.ucsy.app.rmi.VotingService;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.UUID;
@@ -9,8 +7,7 @@ import java.util.UUID;
 public record VoteForm(
     UUID pollId,
     String optionId,
-    String ipAddress,
-    VotingService votingService
+    String ipAddress
 ) implements Serializable {
 
     @Serial

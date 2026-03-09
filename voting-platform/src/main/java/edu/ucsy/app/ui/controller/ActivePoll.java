@@ -37,7 +37,7 @@ public class ActivePoll {
 
     public void joinPoll(VotingServer server) throws RemoteException, UnknownHostException {
 
-        var currentPoll = server.getPollInfo(RmiUtils.getLocalIpAddress());
+        var currentPoll = server.getPollInfo(RmiUtils.getLocalIpAddress(), votingService);
         ipAddressLabel.setText(currentPoll.ipAddress());
         voteEndTimeLabel.setText("Vote ends at : %s%nVote limits : %s".formatted(DateTimeUtils.formatTime(currentPoll.endTime()), currentPoll.limit() == null ? "" : currentPoll.limit()));
 
@@ -73,7 +73,7 @@ public class ActivePoll {
         ToggleButton selected = (ToggleButton) voteGroup.getSelectedToggle();
         String optionId = (String) selected.getUserData();
         try {
-            var form = new VoteForm(poll.id(), optionId, RmiUtils.getLocalIpAddress(), votingService);
+            var form = new VoteForm(poll.id(), optionId, RmiUtils.getLocalIpAddress());
             server.vote(form);
             submitBtn.setDisable(true);
         } catch (RemoteException | UnknownHostException e) {

@@ -10,7 +10,7 @@ public interface VotingServer extends Remote {
 
     void vote(VoteForm form) throws RemoteException;
 
-    PollInfo getPollInfo(String ipAddress) throws RemoteException;
+    PollInfo getPollInfo(String ipAddress, VotingService votingService) throws RemoteException;
 
     void endPoll() throws RemoteException;
 

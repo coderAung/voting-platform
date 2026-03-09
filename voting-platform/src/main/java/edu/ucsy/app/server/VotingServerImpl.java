@@ -1,6 +1,7 @@
 package edu.ucsy.app.server;
 
 import edu.ucsy.app.rmi.VotingServer;
+import edu.ucsy.app.rmi.VotingService;
 import edu.ucsy.app.rmi.dto.*;
 import edu.ucsy.app.rmi.dto.output.PollInfo;
 import edu.ucsy.app.rmi.event.OnVoteEvent;
@@ -28,7 +29,6 @@ public class VotingServerImpl extends UnicastRemoteObject implements VotingServe
     public void vote(VoteForm form) throws RemoteException {
         validate(form);
         poll.select(form.optionId(), form.ipAddress());
-        voters.add(new Voter(form.ipAddress(), form.votingService()));
 
         var event = new OnVoteEvent(
                 poll.id(),
@@ -56,7 +56,7 @@ public class VotingServerImpl extends UnicastRemoteObject implements VotingServe
     }
 
     private void validate(VoteForm form) {
-        if(poll.limit() != null && poll.limit() == voters.size()) {
+        if(poll.limit() != null && poll.limit() == poll.total()) {
             throw new VotingPlatformBusinessException("Poll is full.");
         }
         if(!poll.id().equals(form.pollId())) {
@@ -72,7 +72,8 @@ public class VotingServerImpl extends UnicastRemoteObject implements VotingServe
     }
 
     @Override
-    public PollInfo getPollInfo(String ipAddress) throws RemoteException {
+    public PollInfo getPollInfo(String ipAddress, VotingService votingService) throws RemoteException {
+        voters.add(new Voter(ipAddress, votingService));
         return new PollInfo(poll, voters.stream().anyMatch(v -> v.ipAddress().equals(ipAddress)));
     }
 

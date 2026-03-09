@@ -68,7 +68,7 @@ public class VotingServerImpl extends UnicastRemoteObject implements VotingServe
         }
         voters.stream().filter(v -> v.ipAddress().equals(form.ipAddress()))
                 .findFirst().ifPresent(v -> {
-                    throw new VotingPlatformBusinessException("A voter can only vote once.");
+                    if(v.isVoted()) throw new VotingPlatformBusinessException("A voter can only vote once.");
                 });
     }
 
